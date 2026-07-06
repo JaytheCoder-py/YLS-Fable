@@ -1,6 +1,6 @@
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
-import FeatureCard from './components/FeatureCard.jsx';
+import AnnouncementCards from './components/AnnouncementCards.jsx';
 import LatestReleases from './components/LatestReleases.jsx';
 import Statement from './components/Statement.jsx';
 import Footer from './components/Footer.jsx';
@@ -11,7 +11,7 @@ export default function App() {
       <Nav />
       <main id="main">
         <Hero />
-        <FeatureCard />
+        <AnnouncementCards />
         <LatestReleases />
         <Statement />
       </main>

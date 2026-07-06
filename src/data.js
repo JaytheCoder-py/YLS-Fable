@@ -34,6 +34,11 @@ export const releases = [
   },
 ];
 
+export const announcementCards = [
+  { eyebrow: 'Announcing Fable 5', cta: 'Continue reading', href: '#', variant: 'a' },
+  { eyebrow: 'Introducing Sonnet 5', cta: 'Model details', href: '#', variant: 'b' },
+];
+
 export const featuredLinks = [
   { name: 'Core views on AI safety', category: 'Announcements', href: '#' },
   { name: "Anthropic's Responsible Scaling Policy", category: 'Alignment Science', href: '#' },
