@@ -84,7 +84,7 @@ Measured live tokens used throughout: canvas `#faf9f5`, ink `#141413`, kraft fea
 `#f5e3c7`, warm-stone release cards, 1272 px content container, 16 px / 32 px cards, hero
 `Sans 64/700`, serif feature headline `Serif 72/400`.
 
-Two deliberate substitutions, both because the originals aren't publicly redistributable:
+Three deliberate deviations. The fonts and feature-card video are substituted because the originals aren't publicly redistributable; the headline-reveal accessibility change is an intentional improvement:
 
 - **Fonts** — the proprietary *Anthropic Serif / Sans* are replaced by the documented
   substitutes **Source Serif 4** (headlines/editorial) and **Inter** (UI), loaded from Google
