@@ -250,5 +250,115 @@
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     })();
   </script>
+
+  <script>
+    // Staggered hero word reveal (mirrors the React WordReveal component).
+    // Near-verbatim port of the live anthropic.com inline script (July 2026):
+    // words rise 24px over 800ms (expo-out), each after a random 100-500ms
+    // delay. document.write only runs when JS is enabled, so a no-JS open
+    // still shows the headline.
+    document.write('<style id="word-animation-fouc">h1:not(.no-animate){opacity:0 !important;}</style>');
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var CONFIG = {
+        selector: 'h1:not(.no-animate)',
+        minDelay: 100,
+        maxDelay: 500,
+        duration: 800,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        translateY: 24,
+        threshold: 0.2,
+      };
+
+      var style = document.createElement('style');
+      style.textContent =
+        '.animate-word{display:inline-block;opacity:0;transform:translateY(' + CONFIG.translateY + 'px);' +
+        'transition:opacity ' + CONFIG.duration + 'ms ' + CONFIG.easing + ',transform ' + CONFIG.duration + 'ms ' + CONFIG.easing + ';' +
+        'will-change:opacity,transform;text-decoration:inherit;}' +
+        '.animate-space{display:inline;opacity:0;}' +
+        '.word-animation-processed{opacity:1 !important;}' +
+        '.u-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}' +
+        '@media (prefers-reduced-motion: reduce){' +
+        '.animate-word{transition:none !important;opacity:1 !important;transform:none !important;}' +
+        '.animate-space{opacity:1 !important;}}';
+      document.head.appendChild(style);
+
+      document.querySelectorAll(CONFIG.selector).forEach(function (element) {
+        var srOnly = document.createElement('span');
+        srOnly.className = 'u-sr-only';
+        srOnly.innerHTML = element.innerHTML;
+
+        function processNode(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            var text = node.textContent;
+            if (!text.trim()) return document.createTextNode(text);
+            var fragment = document.createDocumentFragment();
+            var regex = /\S+/g;
+            var lastIndex = 0;
+            var match;
+            while ((match = regex.exec(text)) !== null) {
+              if (match.index > lastIndex) {
+                var spaceSpan = document.createElement('span');
+                spaceSpan.textContent = text.substring(lastIndex, match.index);
+                spaceSpan.className = 'animate-space';
+                fragment.appendChild(spaceSpan);
+              }
+              var wordSpan = document.createElement('span');
+              wordSpan.textContent = match[0];
+              wordSpan.className = 'animate-word';
+              wordSpan.style.transitionDelay =
+                (Math.random() * (CONFIG.maxDelay - CONFIG.minDelay) + CONFIG.minDelay) + 'ms';
+              fragment.appendChild(wordSpan);
+              lastIndex = match.index + match[0].length;
+            }
+            if (lastIndex < text.length) {
+              var trailing = document.createElement('span');
+              trailing.textContent = text.substring(lastIndex);
+              trailing.className = 'animate-space';
+              fragment.appendChild(trailing);
+            }
+            return fragment;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            var clone = node.cloneNode(false);
+            Array.prototype.forEach.call(node.childNodes, function (child) {
+              clone.appendChild(processNode(child));
+            });
+            return clone;
+          }
+          return node.cloneNode(true);
+        }
+
+        var processed = document.createDocumentFragment();
+        Array.prototype.slice.call(element.childNodes).forEach(function (node) {
+          processed.appendChild(processNode(node));
+        });
+
+        element.innerHTML = '';
+        element.appendChild(srOnly);
+        element.appendChild(processed);
+        element.classList.add('word-animation-processed');
+
+        var observer = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            requestAnimationFrame(function () {
+              element.querySelectorAll('.animate-word').forEach(function (word) {
+                word.style.opacity = '1';
+                word.style.transform = 'translateY(0)';
+              });
+              element.querySelectorAll('.animate-space').forEach(function (space) {
+                space.style.opacity = '1';
+              });
+            });
+            obs.disconnect();
+          });
+        }, { threshold: CONFIG.threshold });
+        observer.observe(element);
+      });
+
+      var foucStyle = document.getElementById('word-animation-fouc');
+      if (foucStyle) foucStyle.remove();
+    });
+  </script>
 </body>
 </html>
