@@ -1,0 +1,39 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project
+
+A responsive replica of the anthropic.com homepage (as of July 2026), built with React 18 + Vite 6 + Tailwind v4 + GSAP. No tests and no linter are configured.
+
+## Commands
+
+```bash
+npm install
+npm run dev        # dev server on http://localhost:5173 (port fixed in vite.config.js)
+npm run build      # production build into dist/
+npm run preview    # serve the production build
+```
+
+Note: `npm run capture:ref` / `capture:build` reference `capture.mjs`, which is **not present** in the repo (along with `DESIGN.md`, `theme.css`, `tokens.json`, `variables.css`, which the README mentions). Those scripts will fail until the file is restored.
+
+## Architecture
+
+**Two parallel implementations that must stay in sync.** The same page exists twice:
+
+1. `src/` — the real, componentised React app (the maintainable build).
+2. `preview.html` + `preview.css` — a self-contained, zero-build static copy (opens by double-click; loads GSAP from CDN).
+
+Any visual or content change made to one should be mirrored in the other.
+
+**Styling lives in CSS, not in JSX utility classes.** `src/index.css` holds:
+- Design tokens in a Tailwind v4 `@theme` block (no `tailwind.config.js`) — colors like `--color-canvas` (#faf9f5), `--color-ink` (#141413), `--color-kraft` (#f5e3c7), and `--container-page: 1272px`. Tokens were measured from the live site; change them here, not inline.
+- A handwritten `@layer components` section with BEM-ish class names (`.nav__link`, `.feature__eyebrow`, …). Components reference these classes rather than composing Tailwind utilities.
+
+**All copy/links live in `src/data.js`** (nav links, releases, featured links, footer). Components are presentational; edit content there, not in JSX.
+
+**Page composition** is flat: `App.jsx` renders Nav → Hero → FeatureCard → LatestReleases → Statement → Footer. Shared inline SVGs are in `src/components/Icons.jsx`.
+
+**Scroll animation** (`src/components/FeatureCard.jsx`): GSAP ScrollTrigger scrubs a single `--expand` CSS variable from 0→1 as the card scrolls up; CSS in `index.css` interpolates the card's `max-width` and `border-radius` against it (inset 1272px card → full-bleed band). Key invariants: the value is driven from `self.progress` so it can never stick expanded; `prefers-reduced-motion` leaves the card inset; ScrollTrigger refreshes after fonts/load since font swaps shift trigger positions. Tune the feel via `start`/`end` in the ScrollTrigger config.
+
+**Fonts are deliberate substitutes**: Source Serif 4 (headlines) and Inter (UI) from Google Fonts (loaded in `index.html`), standing in for the proprietary Anthropic Serif/Sans. The feature card's kraft tone + CSS grain overlay stands in for the live site's non-redistributable video.
