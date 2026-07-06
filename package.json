@@ -1,0 +1,26 @@
+{
+  "name": "anthropic-homepage-replica",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Faithful replica of the anthropic.com homepage - React + Vite + Tailwind v4",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "capture:ref": "node capture.mjs https://www.anthropic.com reference",
+    "capture:build": "node capture.mjs http://localhost:5173 build"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.61.1",
+    "tailwindcss": "^4.1.11",
+    "vite": "^6.0.7"
+  }
+}
