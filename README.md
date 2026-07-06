@@ -34,7 +34,7 @@ src/
   index.css                # Tailwind v4 @theme tokens + component layer
   data.js                  # all copy/links (nav, releases, footer, …)
   components/
-    Nav.jsx  Hero.jsx  FeatureCard.jsx  WordReveal.jsx
+    Nav.jsx  Hero.jsx  AnnouncementCards.jsx  WordReveal.jsx
     LatestReleases.jsx  Statement.jsx  Footer.jsx
     Icons.jsx              # shared inline SVGs
 preview.html / preview.css # standalone no-build copy
@@ -44,15 +44,18 @@ DESIGN.md tokens.json theme.css variables.css   # provided style guides
 
 ## Scroll animation (GSAP)
 
-The announcement card replicates anthropic.com's scroll behaviour: as it rises toward the top of
-the viewport it **expands from the inset 1272px card (24px corners) to a full-bleed band (square
-corners)**. `src/components/FeatureCard.jsx` uses **GSAP ScrollTrigger** to scrub a single
-`--expand` variable from 0 → 1; the CSS in `src/index.css` interpolates the card's `max-width` and
-`border-radius` against it (`width:100%` caps the width at the viewport edge, so it never causes
-horizontal scroll). It respects `prefers-reduced-motion` (card stays inset). The standalone
-`preview.html` does the same via the GSAP CDN.
+The announcement section replicates anthropic.com's scroll behaviour: as the side-by-side card
+pair rises toward the top of the viewport it **expands from the inset 1272px pair (24px card
+corners) to a full-bleed band (square corners)**, with a constant 16px gap between the two cards
+that stays visible as a seam even at full bleed. `src/components/AnnouncementCards.jsx` uses
+**GSAP ScrollTrigger** to scrub a single `--expand` variable from 0 → 1 (driven from
+`self.progress`, so it can never stick expanded); the CSS in `src/index.css` interpolates the
+pair's `max-width` (`calc(1272px + 1728px * var(--expand))`) and each card's `border-radius`
+(`calc(24px * (1 - var(--expand)))`) against it. It respects `prefers-reduced-motion` (pair stays
+inset). The standalone `preview.html` does the same via the GSAP CDN.
 
-Tune the feel via the ScrollTrigger `start` / `end` / `scrub` values in `FeatureCard.jsx`.
+Tune the feel via the ScrollTrigger `start` / `end` values (`'top 40%'` / `'top 8%'`) in
+`AnnouncementCards.jsx`.
 
 ## Hero word reveal
 
@@ -80,18 +83,19 @@ npm run capture:build             # → build/<width>.png      (your localhost:5
 
 ## Fidelity notes
 
-Measured live tokens used throughout: canvas `#faf9f5`, ink `#141413`, kraft feature card
-`#f5e3c7`, warm-stone release cards, 1272 px content container, 16 px / 32 px cards, hero
-`Sans 64/700`, serif feature headline `Serif 72/400`.
+Measured live tokens used throughout: canvas `#faf9f5`, ink `#141413`, kraft announcement cards
+`#f5e3c7` / `#e3bd93`, warm-stone release cards, 1272 px content container, 16 px / 32 px cards, hero
+`Sans 64/700`, serif card eyebrow `Serif 28/400` (22px mobile).
 
-Three deliberate deviations. The fonts and feature-card video are substituted because the originals aren't publicly redistributable; the headline-reveal accessibility change is an intentional improvement:
+Three deliberate deviations. The fonts and announcement-card video are substituted because the originals aren't publicly redistributable; the headline-reveal accessibility change is an intentional improvement:
 
 - **Fonts** — the proprietary *Anthropic Serif / Sans* are replaced by the documented
   substitutes **Source Serif 4** (headlines/editorial) and **Inter** (UI), loaded from Google
   Fonts. To drop in the real fonts, add the `.woff2` files and update `--font-serif` /
   `--font-sans` in `src/index.css`.
-- **Feature-card video** — the live kraft card plays a Sanity-hosted video. It's reproduced as
-  the kraft tone `#f5e3c7` with a subtle CSS grain overlay.
+- **Announcement-card video** — the live kraft cards each play a Sanity-hosted video. They're
+  reproduced as slow-drifting kraft-palette gradients (warm kraft on the first card, deeper clay
+  on the second) under a subtle CSS grain overlay.
 - **Headline reveal accessibility** — the live site exposes the split headline to screen
   readers twice (its sr-only clone plus the un-hidden animated copy). The React app instead
   marks the animated copy `aria-hidden` with unfocusable link clones; `preview.html` keeps
