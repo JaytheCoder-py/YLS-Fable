@@ -158,31 +158,56 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink);
 }
 
-/* ---------- Feature card (expands on scroll via --expand) ---------- */
+/* ---------- Announcement card pair (expands on scroll via --expand) ---------- */
 .feature-section {
   --expand: 0;
   margin-top: 24px;
   padding-inline: calc(24px * (1 - var(--expand)));
 }
-.feature {
-  position: relative;
+.feature-pair {
   width: 100%;
   max-width: calc(1272px + 1728px * var(--expand));
   margin-inline: auto;
+  display: flex;
+  gap: 16px;
+  will-change: max-width;
+}
+.vcard {
+  position: relative;
+  flex: 1;
   min-height: 640px;
   border-radius: calc(24px * (1 - var(--expand)));
   background: var(--kraft);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 64px 24px;
-  will-change: max-width, border-radius;
+  will-change: border-radius;
 }
-/* subtle paper grain */
-.feature::before {
+/* Placeholder "video": drifting kraft gradients under the paper grain.
+   Swap in real footage by dropping <video autoplay muted loop playsinline>
+   inside .vcard__media. */
+.vcard__media { position: absolute; inset: 0; overflow: hidden; }
+.vcard__media::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  animation: vcard-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.vcard__media--a::before {
+  background:
+    radial-gradient(120% 90% at 20% 25%, #f9edd8 0%, transparent 60%),
+    radial-gradient(100% 80% at 80% 75%, #eccfa3 0%, transparent 65%),
+    radial-gradient(90% 90% at 65% 20%, #f2ddbb 0%, transparent 55%),
+    var(--kraft);
+}
+.vcard__media--b::before {
+  background:
+    radial-gradient(120% 90% at 75% 20%, #e8c9a0 0%, transparent 60%),
+    radial-gradient(110% 85% at 20% 80%, #d9a97c 0%, transparent 65%),
+    radial-gradient(90% 90% at 40% 40%, #edd7b4 0%, transparent 55%),
+    #e3bd93;
+  animation-direction: alternate-reverse;
+}
+.vcard__media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -191,21 +216,28 @@ a { color: inherit; text-decoration: none; }
   mix-blend-mode: multiply;
   pointer-events: none;
 }
-.feature > * { position: relative; }
-.feature__eyebrow {
+.vcard__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vcard__overlay { position: absolute; left: 32px; bottom: 32px; }
+.vcard__eyebrow {
   font-family: var(--serif);
-  font-size: 72px;
-  line-height: 1.08;
+  font-size: 28px;
+  line-height: 1.15;
   font-weight: 400;
-  margin: 0;
+  margin: 0 0 16px;
   color: var(--ink);
 }
-.feature__desc {
-  font-family: var(--serif);
-  font-size: 24px;
-  line-height: 1.4;
-  margin: 18px 0 28px;
-  color: var(--ink);
+@keyframes vcard-drift {
+  from { transform: translate3d(-2.5%, -2%, 0) scale(1.02); }
+  to   { transform: translate3d(2.5%, 2%, 0) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vcard__media::before { animation: none; }
 }
 .btn {
   display: inline-flex;
@@ -406,7 +438,6 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 @media (max-width: 1024px) {
   .hero__title { font-size: 52px; }
-  .feature__eyebrow { font-size: 60px; }
   .footer__cols { grid-template-columns: repeat(3, 1fr); }
 }
 
@@ -428,9 +459,10 @@ a { color: inherit; text-decoration: none; }
   .hero__sub { font-size: 20px; }
 
   .feature-section { padding-inline: calc(20px * (1 - var(--expand))); }
-  .feature { min-height: 460px; padding: 48px 20px; border-radius: calc(20px * (1 - var(--expand))); }
-  .feature__eyebrow { font-size: 44px; }
-  .feature__desc { font-size: 20px; }
+  .feature-pair { flex-direction: column; gap: 12px; }
+  .vcard { min-height: 340px; border-radius: calc(20px * (1 - var(--expand))); }
+  .vcard__overlay { left: 20px; bottom: 20px; }
+  .vcard__eyebrow { font-size: 22px; }
 
   .section { padding-top: 64px; }
   .releases { grid-template-columns: 1fr; gap: 20px; }

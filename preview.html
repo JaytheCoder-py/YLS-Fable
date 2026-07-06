@@ -48,14 +48,27 @@
       </div>
     </section>
 
-    <!-- ===================== FEATURE CARD (expands on scroll) ===================== -->
+    <!-- ===================== ANNOUNCEMENT CARDS (expand on scroll) ===================== -->
     <section class="feature-section" id="featureSection">
-      <div class="feature">
-        <p class="feature__eyebrow">Announcing Fable 5</p>
-        <p class="feature__desc">The next generation of intelligence.</p>
-        <a class="btn" href="#">Continue reading
-          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+      <div class="feature-pair">
+        <article class="vcard">
+          <div class="vcard__media vcard__media--a"></div>
+          <div class="vcard__overlay">
+            <p class="vcard__eyebrow">Announcing Fable 5</p>
+            <a class="btn" href="#">Continue reading
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="vcard">
+          <div class="vcard__media vcard__media--b"></div>
+          <div class="vcard__overlay">
+            <p class="vcard__eyebrow">Introducing Sonnet 5</p>
+            <a class="btn" href="#">Model details
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -222,8 +235,8 @@
   </footer>
 
   <script>
-    // Scroll-driven expansion of the announcement card (mirrors the React
-    // FeatureCard). --expand (0 -> 1) is driven straight from ScrollTrigger's
+    // Scroll-driven expansion of the announcement card pair (mirrors the React
+    // AnnouncementCards). --expand (0 -> 1) is driven straight from ScrollTrigger's
     // progress; the CSS interpolates width + corner radius against it. Reading
     // self.progress (rather than running a tween) keeps the value tied to the
     // real scroll position, so it can never get stuck fully expanded.
