@@ -36,4 +36,11 @@ Any visual or content change made to one should be mirrored in the other.
 
 **Scroll animation** (`src/components/FeatureCard.jsx`): GSAP ScrollTrigger scrubs a single `--expand` CSS variable from 0→1 as the card scrolls up; CSS in `index.css` interpolates the card's `max-width` and `border-radius` against it (inset 1272px card → full-bleed band). Key invariants: the value is driven from `self.progress` so it can never stick expanded; `prefers-reduced-motion` leaves the card inset; ScrollTrigger refreshes after fonts/load since font swaps shift trigger positions. Tune the feel via `start`/`end` in the ScrollTrigger config.
 
+**Hero word reveal** (`src/components/WordReveal.jsx`): splits the headline into per-word
+spans at render time (recursing into inline anchors), each with a random 100–500ms
+`transition-delay`; an IntersectionObserver (threshold 0.2) adds `.is-revealed` and CSS
+transitions (800ms expo-out, 24px rise, defined in `index.css`) do the animation. The
+intact sentence is kept in a `.u-sr-only` copy; the split copy is `aria-hidden`.
+`preview.html` embeds a vanilla-JS port of the same effect.
+
 **Fonts are deliberate substitutes**: Source Serif 4 (headlines) and Inter (UI) from Google Fonts (loaded in `index.html`), standing in for the proprietary Anthropic Serif/Sans. The feature card's kraft tone + CSS grain overlay stands in for the live site's non-redistributable video.

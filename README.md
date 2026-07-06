@@ -34,7 +34,7 @@ src/
   index.css                # Tailwind v4 @theme tokens + component layer
   data.js                  # all copy/links (nav, releases, footer, …)
   components/
-    Nav.jsx  Hero.jsx  FeatureCard.jsx
+    Nav.jsx  Hero.jsx  FeatureCard.jsx  WordReveal.jsx
     LatestReleases.jsx  Statement.jsx  Footer.jsx
     Icons.jsx              # shared inline SVGs
 preview.html / preview.css # standalone no-build copy
@@ -53,6 +53,17 @@ horizontal scroll). It respects `prefers-reduced-motion` (card stays inset). The
 `preview.html` does the same via the GSAP CDN.
 
 Tune the feel via the ScrollTrigger `start` / `end` / `scrub` values in `FeatureCard.jsx`.
+
+## Hero word reveal
+
+The headline replicates anthropic.com's staggered reveal, with constants measured from the
+live site's inline script (July 2026): each word starts at `opacity: 0` /
+`translateY(24px)` and transitions in over **800ms** (`cubic-bezier(0.16, 1, 0.3, 1)`)
+after a **random 100–500ms delay** — words surface in random order, not left-to-right.
+The trigger is an IntersectionObserver (threshold 0.2); `prefers-reduced-motion` shows the
+headline statically. `src/components/WordReveal.jsx` splits the words at render time
+(preserving the inline links); `preview.html` embeds a near-verbatim port of the live
+site's vanilla script.
 
 ## Reference-vs-build visual diff
 
@@ -81,6 +92,10 @@ Two deliberate substitutions, both because the originals aren't publicly redistr
   `--font-sans` in `src/index.css`.
 - **Feature-card video** — the live kraft card plays a Sanity-hosted video. It's reproduced as
   the kraft tone `#f5e3c7` with a subtle CSS grain overlay.
+- **Headline reveal accessibility** — the live site exposes the split headline to screen
+  readers twice (its sr-only clone plus the un-hidden animated copy). The React app instead
+  marks the animated copy `aria-hidden` with unfocusable link clones; `preview.html` keeps
+  the live behavior 1:1.
 
 Content mirrors the live homepage as of July 2026 (Fable 5 / Sonnet 5 / Claude Science). Edit
 `src/data.js` to change any copy or links.
