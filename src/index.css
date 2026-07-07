@@ -298,6 +298,28 @@ body {
   .footer__legal { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-left: auto; }
   .footer__legal a { font-size: 13px; color: var(--color-footer-text); }
   .footer__legal a:hover { color: #fff; text-decoration: underline; }
+
+  /* ==== Research page ==== */
+
+  /* Research hero — h1 left, serif intro + team links right. */
+  .rhero { padding-top: 104px; padding-bottom: 56px; }
+  .rhero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .rhero__title { margin: 0; font-weight: 700; font-size: 64px; line-height: 1.1; letter-spacing: -0.022em; color: var(--color-ink); }
+  .rhero__intro { margin: 0 0 20px; font-family: var(--font-serif); font-size: 24px; line-height: 1.4; color: var(--color-ink); }
+  .rhero__teams { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; }
+  .rhero__teams-label { font-size: 14px; font-weight: 600; color: var(--color-ink); }
+  .rhero__team-link { font-size: 14px; color: var(--color-graphite); text-decoration: underline; text-underline-offset: 3px; transition: color .2s ease; }
+  .rhero__team-link:hover { color: var(--color-ink); }
+
+  /* Research teams — 4 mission blurbs between hairline rules. */
+  .teams__inner {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    padding-block: 40px;
+    border-top: 1px solid var(--color-divider);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .teams__name { margin: 0 0 10px; font-size: 17px; font-weight: 600; color: var(--color-ink); }
+  .teams__body { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite); }
 }
 
 /* Placeholder-media drift (announcement cards). Freeze to a static frame
@@ -325,6 +347,8 @@ body {
 @media (max-width: 1024px) {
   .hero__title { font-size: 52px; }
   .footer__cols { grid-template-columns: repeat(3, 1fr); }
+  .rhero__title { font-size: 52px; }
+  .teams__inner { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
 }
 @media (max-width: 767px) {
   .container-page { padding-inline: 20px; }
@@ -358,6 +382,11 @@ body {
   .logos__set { gap: 40px; padding-right: 40px; }
   .footer__cols { grid-template-columns: repeat(2, 1fr); }
   .footer__legal { margin-left: 0; }
+  .rhero { padding-top: 64px; padding-bottom: 40px; }
+  .rhero__grid { grid-template-columns: 1fr; gap: 24px; }
+  .rhero__title { font-size: 40px; }
+  .rhero__intro { font-size: 20px; }
+  .teams__inner { grid-template-columns: 1fr; }
 }
 
 /* Reduced motion: skip the viewport takeover entirely — drop the reserved
