@@ -290,6 +290,7 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .logos__track { animation: none; }
+  .logos__marquee { -webkit-mask-image: none; mask-image: none; }
 }
 
 /* ------------------------------------------------------------
