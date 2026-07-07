@@ -214,8 +214,19 @@ body {
   .linklist__name { font-size: 18px; font-weight: 500; color: var(--color-ink); }
   .linklist__cat { font-size: 15px; color: var(--color-ashen); white-space: nowrap; }
 
+  /* CTA band — full-bleed footer-dark run into the footer */
+  .cta { margin-top: 96px; background: var(--color-footer); padding: 96px 0 104px; }
+  .cta__title { margin: 0 0 20px; font-size: 44px; font-weight: 700; letter-spacing: -0.022em; line-height: 1.15; color: #f4f2ec; }
+  .cta__sub { margin: 0 0 36px; font-size: 18px; line-height: 1.55; color: var(--color-footer-link); max-width: 52ch; }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cta__btn { display: inline-flex; align-items: center; font-size: 15px; font-weight: 500; border-radius: 8px; padding: 11px 20px; transition: background .2s ease; }
+  .cta__btn--primary { background: var(--color-canvas); color: var(--color-ink); }
+  .cta__btn--primary:hover { background: #fff; }
+  .cta__btn--secondary { background: rgba(255,255,255,.12); color: #f4f2ec; }
+  .cta__btn--secondary:hover { background: rgba(255,255,255,.18); }
+
   /* Footer */
-  .footer { margin-top: 96px; background: var(--color-footer); color: var(--color-footer-text); }
+  .footer { margin-top: 0; border-top: 1px solid rgba(255,255,255,.08); background: var(--color-footer); color: var(--color-footer-text); }
   .footer__top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 40px 0 32px; border-bottom: 1px solid rgba(255,255,255,.08); }
   .footer__wordmark { font-weight: 600; font-size: 20px; letter-spacing: 0.14em; color: #f4f2ec; }
   .footer__social { display: flex; gap: 18px; }
@@ -270,6 +281,8 @@ body {
   .releases { grid-template-columns: 1fr; gap: 20px; }
   .statement { grid-template-columns: 1fr; gap: 24px; }
   .statement__lead { font-size: 22px; }
+  .cta { padding: 64px 0; }
+  .cta__title { font-size: 32px; }
   .linklist__row { flex-wrap: wrap; gap: 4px; }
   .footer__cols { grid-template-columns: repeat(2, 1fr); }
   .footer__legal { margin-left: 0; }

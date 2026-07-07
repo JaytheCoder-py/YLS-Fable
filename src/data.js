@@ -47,6 +47,13 @@ export const featuredLinks = [
   { name: "Claude's Constitution", category: 'Announcements', href: '#' },
 ];
 
+export const ctaSection = {
+  title: 'Ready to build with Claude?',
+  body: 'Start with the Claude Developer Platform, or talk to our team about Claude for Enterprise.',
+  primary: { label: 'Try Claude for free', href: '#' },
+  secondary: { label: 'Talk to sales', href: '#' },
+};
+
 export const footerColumns = [
   {
     heading: 'Products',
