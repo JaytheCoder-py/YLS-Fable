@@ -35,7 +35,7 @@ src/
   data.js                  # all copy/links (nav, releases, footer, …)
   components/
     Nav.jsx  Hero.jsx  AnnouncementCards.jsx  WordReveal.jsx
-    LatestReleases.jsx  Statement.jsx  Footer.jsx
+    LatestReleases.jsx  Statement.jsx  CtaSection.jsx  Footer.jsx
     Icons.jsx              # shared inline SVGs
 preview.html / preview.css # standalone no-build copy
 capture.mjs                # Playwright responsive screenshot + overflow diff
