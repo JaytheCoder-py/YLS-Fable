@@ -320,6 +320,54 @@ body {
   }
   .teams__name { margin: 0 0 10px; font-size: 17px; font-weight: 600; color: var(--color-ink); }
   .teams__body { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite); }
+
+  /* Featured research — big feature (2fr) + side stack (1fr), hairline
+     seam below. The live feature artwork (a ship painting dissolving into
+     typed ASCII words) is non-redistributable; per repo convention the
+     stand-in is CSS-only: kraft gradients + grain, plus a repeating-word
+     SVG layer masked to fade in from the left — image-into-text. */
+  .featured { padding-top: 56px; }
+  .featured__inner {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 48px;
+    align-items: start;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .featured__media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 20% 25%, #f9edd8 0%, transparent 60%),
+      radial-gradient(100% 80% at 80% 75%, #eccfa3 0%, transparent 65%),
+      radial-gradient(90% 90% at 65% 20%, #f2ddbb 0%, transparent 55%),
+      var(--color-kraft);
+  }
+  .featured__media::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='132'%3E%3Cg font-family='ui-monospace,monospace' font-size='11' fill='%23141413'%3E%3Ctext x='6' y='16'%3ECLOUDS CLOUDS CLOUDS CLOUDS CLOUDS%3C/text%3E%3Ctext x='24' y='38'%3ECLOUDS CLOUDS CLOUDS CLOUDS%3C/text%3E%3Ctext x='6' y='64'%3EBOAT BOAT BOAT BOAT BOAT%3C/text%3E%3Ctext x='30' y='86'%3EBOAT BOAT BOAT%3C/text%3E%3Ctext x='6' y='110'%3EOCEAN OCEAN OCEAN OCEAN OCEAN%3C/text%3E%3Ctext x='22' y='128'%3EOCEAN OCEAN OCEAN OCEAN%3C/text%3E%3C/g%3E%3C/svg%3E");
+    background-size: 360px 132px;
+    opacity: .35;
+    -webkit-mask-image: linear-gradient(to right, transparent 30%, #000 72%);
+    mask-image: linear-gradient(to right, transparent 30%, #000 72%);
+  }
+  .featured__media::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: .06; mix-blend-mode: multiply; pointer-events: none;
+  }
+  .featured__caption { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-top: 24px; }
+  .featured__title { margin: 0; font-family: var(--font-serif); font-size: 30px; line-height: 1.2; font-weight: 400; color: var(--color-ink); }
+  .featured__main:hover .featured__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .featured__meta { margin: 0 0 10px; display: flex; gap: 12px; align-items: baseline; font-size: 13px; }
+  .featured__cat { font-weight: 600; color: var(--color-ink); }
+  .featured__date { color: var(--color-ashen); }
+  .featured__teaser { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite); }
+  .featured__side { display: flex; flex-direction: column; }
+  .featured__item { display: block; padding-block: 20px; border-top: 1px solid var(--color-divider); }
+  .featured__item:first-child { border-top: 0; padding-top: 0; }
+  .featured__item:hover .featured__item-title { text-decoration: underline; text-underline-offset: 3px; }
+  .featured__item-title { margin: 0 0 8px; font-family: var(--font-serif); font-size: 20px; line-height: 1.25; font-weight: 400; color: var(--color-ink); }
 }
 
 /* Placeholder-media drift (announcement cards). Freeze to a static frame
@@ -349,6 +397,7 @@ body {
   .footer__cols { grid-template-columns: repeat(3, 1fr); }
   .rhero__title { font-size: 52px; }
   .teams__inner { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
+  .featured__inner { grid-template-columns: 1fr; }
 }
 @media (max-width: 767px) {
   .container-page { padding-inline: 20px; }
@@ -387,6 +436,10 @@ body {
   .rhero__title { font-size: 40px; }
   .rhero__intro { font-size: 20px; }
   .teams__inner { grid-template-columns: 1fr; }
+  .featured { padding-top: 40px; }
+  .featured__inner { padding-bottom: 48px; }
+  .featured__caption { grid-template-columns: 1fr; gap: 12px; }
+  .featured__title { font-size: 24px; }
 }
 
 /* Reduced motion: skip the viewport takeover entirely — drop the reserved

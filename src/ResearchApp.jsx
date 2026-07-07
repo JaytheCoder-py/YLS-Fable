@@ -1,6 +1,7 @@
 import Nav from './components/Nav.jsx';
 import ResearchHero from './components/ResearchHero.jsx';
 import ResearchTeams from './components/ResearchTeams.jsx';
+import FeaturedResearch from './components/FeaturedResearch.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function ResearchApp() {
@@ -10,6 +11,7 @@ export default function ResearchApp() {
       <main id="main">
         <ResearchHero />
         <ResearchTeams />
+        <FeaturedResearch />
       </main>
       <Footer />
     </>
