@@ -116,10 +116,12 @@ body {
      (24px radius, 640px tall) to a full-bleed, full-viewport band (square
      corners, 100svh tall); the 16px gap between the cards is constant,
      leaving a seam even at full takeover. The section reserves the full
-     takeover height up front (cards vertically centered inside), so the
-     height animation never reflows the layout below mid-scrub. width:100%
-     caps max-width at the section width, so the pair reaches the true
-     viewport edges without causing horizontal scroll. */
+     takeover height up front with the cards TOP-ALIGNED — the reserved
+     slack sits below them (keeping the hero-to-cards gap tight) and is
+     consumed as they grow, so the height animation never reflows the
+     layout below mid-scrub. width:100% caps max-width at the section
+     width, so the pair reaches the true viewport edges without causing
+     horizontal scroll. */
   .feature-section {
     --expand: 0;
     margin-top: 24px;
@@ -127,7 +129,6 @@ body {
     min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     padding-inline: calc(24px * (1 - var(--expand)));
   }
   .feature-pair {

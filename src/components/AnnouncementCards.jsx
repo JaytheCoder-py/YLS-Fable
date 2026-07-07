@@ -18,7 +18,8 @@ gsap.registerPlugin(ScrollTrigger);
 // takeover — full-bleed width AND 100svh height, square corners — completing
 // exactly when the section top reaches the viewport top, i.e. before the next
 // section can enter; the gap between the cards stays constant. The section
-// reserves the takeover height in CSS, so nothing below reflows mid-scrub.
+// reserves the takeover height in CSS with the cards top-aligned (slack
+// below, hero gap tight), so nothing below reflows mid-scrub.
 // We drive a single --expand variable (0 -> 1) straight from ScrollTrigger's
 // progress; the CSS interpolates the pair's width + height and each card's
 // radius against it. Using self.progress (rather than a free-running tween)
@@ -38,7 +39,7 @@ export default function AnnouncementCards() {
 
     const st = ScrollTrigger.create({
       trigger: section,
-      start: 'top 20%',   // ~two wheel notches (~200px) later than the old 40%
+      start: 'top 10%',   // expansion begins ~4 wheel notches into the page
       end: 'top top',     // full takeover exactly as the section tops out
       onUpdate: (self) => setExpand(self.progress),
       onRefresh: (self) => setExpand(self.progress),

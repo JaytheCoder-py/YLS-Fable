@@ -49,8 +49,9 @@ the side-by-side card pair rises toward the top of the viewport it **expands fro
 1272px × 640px pair (24px card corners) to a full-bleed, full-height band (100svh, square
 corners)**, with a constant 16px gap between the two cards that stays visible as a seam even at
 full takeover. The expansion completes exactly as the section reaches the viewport top, before
-the next section scrolls in; the section reserves the takeover height in layout so nothing below
-reflows while the cards grow. `src/components/AnnouncementCards.jsx` uses **GSAP ScrollTrigger**
+the next section scrolls in; the section reserves the takeover height in layout (cards
+top-aligned, slack below) so the hero→cards gap stays tight and nothing below reflows while
+the cards grow. `src/components/AnnouncementCards.jsx` uses **GSAP ScrollTrigger**
 to scrub a single `--expand` variable from 0 → 1 (driven from `self.progress`, so it can never
 stick expanded); the CSS in `src/index.css` interpolates the pair's `max-width`
 (`calc(1272px + 1728px * var(--expand))`) and `height`
@@ -59,7 +60,7 @@ stick expanded); the CSS in `src/index.css` interpolates the pair's `max-width`
 reservation dropped, pair stays inset). The standalone `preview.html` does the same via the
 GSAP CDN.
 
-Tune the feel via the ScrollTrigger `start` / `end` values (`'top 20%'` / `'top top'`) in
+Tune the feel via the ScrollTrigger `start` / `end` values (`'top 10%'` / `'top top'`) in
 `AnnouncementCards.jsx`.
 
 ## Hero word reveal

@@ -299,7 +299,7 @@
 
       var st = ScrollTrigger.create({
         trigger: section,
-        start: 'top 20%',   // ~two wheel notches (~200px) later than the old 40%
+        start: 'top 10%',   // expansion begins ~4 wheel notches into the page
         end: 'top top',     // full takeover exactly as the section tops out
         onUpdate: function (self) { setExpand(self.progress); },
         onRefresh: function (self) { setExpand(self.progress); },
