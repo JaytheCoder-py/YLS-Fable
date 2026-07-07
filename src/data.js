@@ -73,3 +73,15 @@ export const footerLegal = [
   'Terms of service: Consumer',
   'Usage policy',
 ];
+
+export const logoBanner = {
+  eyebrow: 'Trusted by teams worldwide',
+  logos: [
+    { id: 'samsung', name: 'Samsung' },
+    { id: 'dji', name: 'DJI' },
+    { id: 'byd', name: 'BYD' },
+    { id: 'xiaomi', name: 'Xiaomi' },
+    { id: 'aima', name: 'AIMA' },
+    { id: 'hyundai', name: 'Hyundai' },
+  ],
+};
