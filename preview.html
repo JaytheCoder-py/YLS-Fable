@@ -282,9 +282,11 @@
   </footer>
 
   <script>
-    // Scroll-driven expansion of the announcement card pair (mirrors the React
-    // AnnouncementCards). --expand (0 -> 1) is driven straight from ScrollTrigger's
-    // progress; the CSS interpolates width + corner radius against it. Reading
+    // Scroll-driven viewport takeover of the announcement card pair (mirrors
+    // the React AnnouncementCards). --expand (0 -> 1) is driven straight from
+    // ScrollTrigger's progress; the CSS interpolates the pair's width + height
+    // (full-bleed, 100svh at progress 1) and corner radius against it, with
+    // the takeover height reserved in layout so nothing below reflows. Reading
     // self.progress (rather than running a tween) keeps the value tied to the
     // real scroll position, so it can never get stuck fully expanded.
     (function () {
@@ -297,8 +299,8 @@
 
       var st = ScrollTrigger.create({
         trigger: section,
-        start: 'top 40%',
-        end: 'top 8%',
+        start: 'top 20%',   // ~two wheel notches (~200px) later than the old 40%
+        end: 'top top',     // full takeover exactly as the section tops out
         onUpdate: function (self) { setExpand(self.progress); },
         onRefresh: function (self) { setExpand(self.progress); },
       });
