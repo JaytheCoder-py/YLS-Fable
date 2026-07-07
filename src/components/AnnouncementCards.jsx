@@ -14,12 +14,16 @@ gsap.registerPlugin(ScrollTrigger);
 // keeps painting on top.
 //
 // Scroll behaviour: the pair starts as an inset 1272px row (24px corners) and,
-// as it rises toward the top of the viewport, expands to a full-bleed band
-// (square corners); the gap between the cards stays constant. We drive a
-// single --expand variable (0 -> 1) straight from ScrollTrigger's progress;
-// the CSS interpolates the pair's width + each card's radius against it.
-// Using self.progress (rather than a free-running tween) means the value is
-// always tied to the real scroll position, so it can never get "stuck" expanded.
+// as it rises toward the top of the viewport, expands into a full-viewport
+// takeover — full-bleed width AND 100svh height, square corners — completing
+// exactly when the section top reaches the viewport top, i.e. before the next
+// section can enter; the gap between the cards stays constant. The section
+// reserves the takeover height in CSS, so nothing below reflows mid-scrub.
+// We drive a single --expand variable (0 -> 1) straight from ScrollTrigger's
+// progress; the CSS interpolates the pair's width + height and each card's
+// radius against it. Using self.progress (rather than a free-running tween)
+// means the value is always tied to the real scroll position, so it can never
+// get "stuck" expanded.
 export default function AnnouncementCards() {
   const sectionRef = useRef(null);
 
@@ -34,8 +38,8 @@ export default function AnnouncementCards() {
 
     const st = ScrollTrigger.create({
       trigger: section,
-      start: 'top 40%',   // contained until the pair is ~40% up the viewport
-      end: 'top 8%',      // full-bleed as it reaches the top
+      start: 'top 20%',   // ~two wheel notches (~200px) later than the old 40%
+      end: 'top top',     // full takeover exactly as the section tops out
       onUpdate: (self) => setExpand(self.progress),
       onRefresh: (self) => setExpand(self.progress),
     });

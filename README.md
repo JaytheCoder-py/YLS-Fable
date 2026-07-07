@@ -44,17 +44,22 @@ DESIGN.md tokens.json theme.css variables.css   # provided style guides
 
 ## Scroll animation (GSAP)
 
-The announcement section replicates anthropic.com's scroll behaviour: as the side-by-side card
-pair rises toward the top of the viewport it **expands from the inset 1272px pair (24px card
-corners) to a full-bleed band (square corners)**, with a constant 16px gap between the two cards
-that stays visible as a seam even at full bleed. `src/components/AnnouncementCards.jsx` uses
-**GSAP ScrollTrigger** to scrub a single `--expand` variable from 0 → 1 (driven from
-`self.progress`, so it can never stick expanded); the CSS in `src/index.css` interpolates the
-pair's `max-width` (`calc(1272px + 1728px * var(--expand))`) and each card's `border-radius`
-(`calc(24px * (1 - var(--expand)))`) against it. It respects `prefers-reduced-motion` (pair stays
-inset). The standalone `preview.html` does the same via the GSAP CDN.
+The announcement section extends anthropic.com's scroll behaviour into a viewport takeover: as
+the side-by-side card pair rises toward the top of the viewport it **expands from the inset
+1272px × 640px pair (24px card corners) to a full-bleed, full-height band (100svh, square
+corners)**, with a constant 16px gap between the two cards that stays visible as a seam even at
+full takeover. The expansion completes exactly as the section reaches the viewport top, before
+the next section scrolls in; the section reserves the takeover height in layout so nothing below
+reflows while the cards grow. `src/components/AnnouncementCards.jsx` uses **GSAP ScrollTrigger**
+to scrub a single `--expand` variable from 0 → 1 (driven from `self.progress`, so it can never
+stick expanded); the CSS in `src/index.css` interpolates the pair's `max-width`
+(`calc(1272px + 1728px * var(--expand))`) and `height`
+(`calc(640px * (1 - var(--expand)) + 100svh * var(--expand))`) and each card's `border-radius`
+(`calc(24px * (1 - var(--expand)))`) against it. It respects `prefers-reduced-motion` (height
+reservation dropped, pair stays inset). The standalone `preview.html` does the same via the
+GSAP CDN.
 
-Tune the feel via the ScrollTrigger `start` / `end` values (`'top 40%'` / `'top 8%'`) in
+Tune the feel via the ScrollTrigger `start` / `end` values (`'top 20%'` / `'top top'`) in
 `AnnouncementCards.jsx`.
 
 ## Hero word reveal
