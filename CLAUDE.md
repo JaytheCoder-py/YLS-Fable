@@ -32,7 +32,7 @@ Any visual or content change made to one should be mirrored in the other.
 
 **All copy/links live in `src/data.js`** (nav links, releases, featured links, footer). Components are presentational; edit content there, not in JSX.
 
-**Page composition** is flat: `App.jsx` renders Nav → Hero → AnnouncementCards → LatestReleases → Statement → Footer. Shared inline SVGs are in `src/components/Icons.jsx`.
+**Page composition** is flat: `App.jsx` renders Nav → Hero → AnnouncementCards → LatestReleases → Statement → LogoBanner → Footer. Shared inline SVGs are in `src/components/Icons.jsx`.
 
 **Scroll animation** (`src/components/AnnouncementCards.jsx`): GSAP ScrollTrigger scrubs a single `--expand` CSS variable from 0→1 as the card pair scrolls up; CSS in `index.css` interpolates the pair's `max-width` and each card's `border-radius` against it (inset 1272px row → full-bleed band, with the gap between the two cards constant throughout). Key invariants: the value is driven from `self.progress` so it can never stick expanded; `prefers-reduced-motion` leaves the pair inset and freezes the cards' CSS placeholder-media drift; ScrollTrigger refreshes after fonts/load since font swaps shift trigger positions. Tune the feel via `start`/`end` in the ScrollTrigger config. Each card's "video" is CSS-only (`.vcard__media` gradients + grain); drop a `<video autoplay muted loop playsinline>` inside `.vcard__media` to use real footage.
 
