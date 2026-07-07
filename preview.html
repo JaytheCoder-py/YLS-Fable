@@ -50,9 +50,19 @@
 
     <!-- ===================== ANNOUNCEMENT CARDS (expand on scroll) ===================== -->
     <section class="feature-section" id="featureSection">
-      <div class="feature-pair">
-        <article class="vcard">
+      <div class="feature-pair" aria-hidden="true">
+        <div class="vcard">
           <div class="vcard__media vcard__media--a"></div>
+        </div>
+        <div class="vcard">
+          <div class="vcard__media vcard__media--b"></div>
+        </div>
+      </div>
+      <!-- Floating copy layer: frozen at the pair's inset geometry so the
+           text rides normal page scroll while the cards expand beneath it
+           (see .feature-overlay in preview.css). -->
+      <div class="feature-overlay">
+        <article class="feature-overlay__cell">
           <div class="vcard__overlay">
             <p class="vcard__eyebrow">Announcing Fable 5</p>
             <a class="btn" href="#">Continue reading
@@ -60,8 +70,7 @@
             </a>
           </div>
         </article>
-        <article class="vcard">
-          <div class="vcard__media vcard__media--b"></div>
+        <article class="feature-overlay__cell">
           <div class="vcard__overlay">
             <p class="vcard__eyebrow">Introducing Sonnet 5</p>
             <a class="btn" href="#">Model details
@@ -283,33 +292,32 @@
 
   <script>
     // Scroll-driven viewport takeover of the announcement card pair (mirrors
-    // the React AnnouncementCards). --expand (0 -> 1) is driven straight from
-    // ScrollTrigger's progress; the CSS interpolates the pair's width + height
-    // (full-bleed, 100svh at progress 1) and corner radius against it, with
-    // the takeover height reserved in layout so nothing below reflows. Reading
-    // self.progress (rather than running a tween) keeps the value tied to the
-    // real scroll position, so it can never get stuck fully expanded.
+    // the React AnnouncementCards). One mouse-wheel notch scrolls ~100px in
+    // desktop browsers, so the takeover plays across wheel notches 3-5:
+    // scrollY 200px -> 500px. Absolute offsets — font/layout shifts can't
+    // move the trigger, so no refresh-after-fonts plumbing is needed.
+    // sine.inOut hands the middle notch (the 4th) half of the expansion and
+    // softens both ends; scrub smooths the steps between wheel events while
+    // keeping --expand pinned to the real scroll position, so it can never
+    // get stuck expanded. The CSS interpolates the pair's width + height
+    // (full-bleed, 100svh at progress 1) and corner radius against --expand,
+    // with the takeover height reserved in layout so nothing below reflows.
     (function () {
       var section = document.getElementById('featureSection');
       if (!section || !window.gsap || !window.ScrollTrigger) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       gsap.registerPlugin(ScrollTrigger);
-      var setExpand = function (p) { section.style.setProperty('--expand', p.toFixed(4)); };
-
-      var st = ScrollTrigger.create({
-        trigger: section,
-        start: 'top 10%',   // expansion begins ~4 wheel notches into the page
-        end: 'top top',     // full takeover exactly as the section tops out
-        onUpdate: function (self) { setExpand(self.progress); },
-        onRefresh: function (self) { setExpand(self.progress); },
+      var WHEEL_PX = 100;
+      gsap.fromTo(section, { '--expand': 0 }, {
+        '--expand': 1,
+        ease: 'sine.inOut',
+        scrollTrigger: {
+          start: 2 * WHEEL_PX,
+          end: 5 * WHEEL_PX,
+          scrub: 0.4,
+        },
       });
-      setExpand(st.progress);
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
-      }
-      window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     })();
   </script>
 

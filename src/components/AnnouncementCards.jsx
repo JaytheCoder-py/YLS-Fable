@@ -13,18 +13,15 @@ gsap.registerPlugin(ScrollTrigger);
 // the rule at the bottom makes it fill the card, and the grain (::after)
 // keeps painting on top.
 //
-// Scroll behaviour: the pair starts as an inset 1272px row (24px corners) and,
-// as it rises toward the top of the viewport, expands into a full-viewport
-// takeover — full-bleed width AND 100svh height, square corners — completing
-// exactly when the section top reaches the viewport top, i.e. before the next
-// section can enter; the gap between the cards stays constant. The section
-// reserves the takeover height in CSS with the cards top-aligned (slack
-// below, hero gap tight), so nothing below reflows mid-scrub.
-// We drive a single --expand variable (0 -> 1) straight from ScrollTrigger's
-// progress; the CSS interpolates the pair's width + height and each card's
-// radius against it. Using self.progress (rather than a free-running tween)
-// means the value is always tied to the real scroll position, so it can never
-// get "stuck" expanded.
+// Scroll behaviour: the pair starts as an inset 1272px row and expands into a
+// full-viewport takeover — full-bleed width AND 100svh height, square corners
+// — with the gap between the cards constant. The section reserves the
+// takeover height in CSS with the cards top-aligned (slack below, hero gap
+// tight), so nothing below reflows mid-scrub.
+//
+// The card copy does NOT live inside the cards: it sits in .feature-overlay,
+// a sibling layer frozen at the pair's initial inset geometry, so the text
+// rides normal page scroll while the cards grow underneath it.
 export default function AnnouncementCards() {
   const sectionRef = useRef(null);
 
@@ -35,35 +32,46 @@ export default function AnnouncementCards() {
     // Respect reduced-motion: leave the cards inset (their CSS default).
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const setExpand = (p) => section.style.setProperty('--expand', p.toFixed(4));
-
-    const st = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 10%',   // expansion begins ~4 wheel notches into the page
-      end: 'top top',     // full takeover exactly as the section tops out
-      onUpdate: (self) => setExpand(self.progress),
-      onRefresh: (self) => setExpand(self.progress),
-    });
-    setExpand(st.progress);
-
-    // Web fonts change layout heights, which shifts the trigger position —
-    // recompute once they're ready and after full load.
-    const refresh = () => ScrollTrigger.refresh();
-    if (document.fonts?.ready) document.fonts.ready.then(refresh);
-    window.addEventListener('load', refresh);
+    // One mouse-wheel notch scrolls ~100px in desktop browsers, so the
+    // takeover plays across wheel notches 3-5: scrollY 200px -> 500px.
+    // Absolute offsets — font/layout shifts can't move the trigger, so no
+    // refresh-after-fonts plumbing is needed. sine.inOut hands the middle
+    // notch (the 4th) half of the expansion and softens both ends; scrub
+    // smooths the steps between wheel events while keeping --expand pinned
+    // to the real scroll position, so it can never get stuck expanded.
+    const WHEEL_PX = 100;
+    const tween = gsap.fromTo(
+      section,
+      { '--expand': 0 },
+      {
+        '--expand': 1,
+        ease: 'sine.inOut',
+        scrollTrigger: {
+          start: 2 * WHEEL_PX,
+          end: 5 * WHEEL_PX,
+          scrub: 0.4,
+        },
+      },
+    );
 
     return () => {
-      window.removeEventListener('load', refresh);
-      st.kill();
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
   }, []);
 
   return (
     <section className="feature-section" ref={sectionRef}>
-      <div className="feature-pair">
+      <div className="feature-pair" aria-hidden="true">
         {announcementCards.map((card) => (
-          <article className="vcard" key={card.eyebrow}>
+          <div className="vcard" key={card.eyebrow}>
             <div className={`vcard__media vcard__media--${card.variant}`} />
+          </div>
+        ))}
+      </div>
+      <div className="feature-overlay">
+        {announcementCards.map((card) => (
+          <article className="feature-overlay__cell" key={card.eyebrow}>
             <div className="vcard__overlay">
               <p className="vcard__eyebrow">{card.eyebrow}</p>
               <a className="btn" href={card.href}>{card.cta} <ArrowRight /></a>

@@ -113,17 +113,18 @@ body {
 
   /* Announcement card pair — a viewport takeover. As --expand is scrubbed
      0 -> 1 by GSAP ScrollTrigger the pair goes from an inset 1272px row
-     (24px radius, 640px tall) to a full-bleed, full-viewport band (square
-     corners, 100svh tall); the 16px gap between the cards is constant,
-     leaving a seam even at full takeover. The section reserves the full
-     takeover height up front with the cards TOP-ALIGNED — the reserved
-     slack sits below them (keeping the hero-to-cards gap tight) and is
-     consumed as they grow, so the height animation never reflows the
-     layout below mid-scrub. width:100% caps max-width at the section
+     (24px radius, min(720px, 100svh) tall) to a full-bleed, full-viewport
+     band (square corners, 100svh tall); the 16px gap between the cards is
+     constant, leaving a seam even at full takeover. The section reserves
+     the full takeover height up front with the cards TOP-ALIGNED — the
+     reserved slack sits below them (keeping the hero-to-cards gap tight)
+     and is consumed as they grow, so the height animation never reflows
+     the layout below mid-scrub. width:100% caps max-width at the section
      width, so the pair reaches the true viewport edges without causing
      horizontal scroll. */
   .feature-section {
     --expand: 0;
+    position: relative;
     margin-top: 48px;
     min-height: 100vh;
     min-height: 100svh;
@@ -134,8 +135,8 @@ body {
   .feature-pair {
     width: 100%;
     max-width: calc(1272px + 1728px * var(--expand));
-    height: calc(640px * (1 - var(--expand)) + 100vh * var(--expand));
-    height: calc(640px * (1 - var(--expand)) + 100svh * var(--expand));
+    height: calc(min(720px, 100vh) * (1 - var(--expand)) + 100vh * var(--expand));
+    height: calc(min(720px, 100svh) * (1 - var(--expand)) + 100svh * var(--expand));
     margin-inline: auto;
     display: flex;
     gap: 16px;
@@ -188,7 +189,29 @@ body {
     object-fit: cover;
   }
 
-  .vcard__overlay { position: absolute; left: 32px; bottom: 32px; }
+  /* Floating copy layer. The eyebrow + CTA are NOT inside the expanding
+     cards: they live in this sibling layer, frozen at the pair's initial
+     (--expand: 0) geometry, so the text keeps its normal scroll
+     displacement — the cards grow underneath it and their outer/bottom
+     edges pull away from the anchored copy. Absolute offsets resolve
+     against the section's padding EDGE (not its content box), which the
+     animated padding-inline never moves, so `100% - 48px` is exactly the
+     pair's inset footprint throughout the scrub. Only the cells' own
+     children take pointer events, keeping the layer click-transparent. */
+  .feature-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 1;
+    width: min(1272px, 100% - 48px);
+    height: min(720px, 100vh);
+    height: min(720px, 100svh);
+    margin-inline: auto;
+    display: flex;
+    gap: 16px;
+    pointer-events: none;
+  }
+  .feature-overlay__cell { position: relative; flex: 1; }
+  .vcard__overlay { position: absolute; left: 32px; bottom: 32px; pointer-events: auto; }
   .vcard__eyebrow { font-family: var(--font-serif); font-size: 28px; line-height: 1.15; font-weight: 400; margin: 0 0 16px; color: var(--color-ink); }
 
   /* Buttons */
@@ -345,6 +368,12 @@ body {
     height: calc(692px * (1 - var(--expand)) + 100svh * var(--expand));
   }
   .vcard { border-radius: calc(20px * (1 - var(--expand))); }
+  .feature-overlay {
+    width: calc(100% - 40px);
+    height: 692px;
+    flex-direction: column;
+    gap: 12px;
+  }
   .vcard__overlay { left: 20px; bottom: 20px; }
   .vcard__eyebrow { font-size: 22px; }
   .section { padding-top: 64px; }
@@ -367,7 +396,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .feature-section { min-height: 0; display: block; }
   .feature-pair { height: auto; }
-  .vcard { min-height: 640px; }
+  .vcard {
+    min-height: min(720px, 100vh);
+    min-height: min(720px, 100svh);
+  }
 }
 @media (prefers-reduced-motion: reduce) and (max-width: 767px) {
   .vcard { min-height: 340px; }
