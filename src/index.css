@@ -192,12 +192,13 @@ body {
   /* Floating copy layer. The eyebrow + CTA are NOT inside the expanding
      cards: they live in this sibling layer, frozen at the pair's initial
      (--expand: 0) geometry, so the text keeps its normal scroll
-     displacement — the cards grow underneath it and their outer/bottom
-     edges pull away from the anchored copy. Absolute offsets resolve
-     against the section's padding EDGE (not its content box), which the
-     animated padding-inline never moves, so `100% - 48px` is exactly the
-     pair's inset footprint throughout the scrub. Only the cells' own
-     children take pointer events, keeping the layer click-transparent. */
+     displacement — the copy sits at the centre of each card's inset
+     footprint and stays put while the card edges grow away from it.
+     Absolute offsets resolve against the section's padding EDGE (not its
+     content box), which the animated padding-inline never moves, so
+     `100% - 48px` is exactly the pair's inset footprint throughout the
+     scrub. Only the copy elements themselves take pointer events,
+     keeping the layer click-transparent. */
   .feature-overlay {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -211,7 +212,17 @@ body {
     pointer-events: none;
   }
   .feature-overlay__cell { position: relative; flex: 1; }
-  .vcard__overlay { position: absolute; left: 32px; bottom: 32px; pointer-events: auto; }
+  .vcard__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .vcard__overlay > * { pointer-events: auto; }
   .vcard__eyebrow { font-family: var(--font-serif); font-size: 28px; line-height: 1.15; font-weight: 400; margin: 0 0 16px; color: var(--color-ink); }
 
   /* Buttons */
@@ -374,7 +385,6 @@ body {
     flex-direction: column;
     gap: 12px;
   }
-  .vcard__overlay { left: 20px; bottom: 20px; }
   .vcard__eyebrow { font-size: 22px; }
   .section { padding-top: 64px; }
   .releases { grid-template-columns: 1fr; gap: 20px; }
