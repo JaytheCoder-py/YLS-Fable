@@ -214,6 +214,45 @@ body {
   .linklist__name { font-size: 18px; font-weight: 500; color: var(--color-ink); }
   .linklist__cat { font-size: 15px; color: var(--color-ashen); white-space: nowrap; }
 
+  /* Logo banner — "trusted by" marquee. The track holds the logo set
+     twice; logos-scroll (defined below, outside the layer) slides it
+     -50% for a seamless loop. Each set carries the inter-set gap as
+     padding-right so -50% is exactly one set's footprint. */
+  .logos__eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--color-ashen);
+    text-align: center; margin: 0 0 40px;
+  }
+  .logos__marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+  .logos__marquee:hover .logos__track { animation-play-state: paused; }
+  .logos__track {
+    display: flex;
+    width: max-content;
+    animation: logos-scroll 30s linear infinite;
+    will-change: transform;
+  }
+  .logos__set {
+    display: flex; align-items: center; gap: 64px;
+    list-style: none; margin: 0; padding: 0 64px 0 0;
+  }
+  .logos__item {
+    display: flex; align-items: center;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+    transition: color .2s ease;
+  }
+  .logos__item:hover { color: var(--color-ink); }
+  .logos__mark { display: block; width: auto; fill: currentColor; }
+  .logos__mark--samsung { height: 16px; }
+  .logos__mark--dji { height: 28px; }
+  .logos__mark--byd { height: 32px; }
+  .logos__mark--xiaomi { height: 30px; }
+  .logos__mark--hyundai { height: 26px; }
+  .logos__wordmark { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; line-height: 1; }
+
   /* Footer */
   .footer { margin-top: 96px; background: var(--color-footer); color: var(--color-footer-text); }
   .footer__top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 40px 0 32px; border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -245,6 +284,14 @@ body {
   .vcard__media::before { animation: none; }
 }
 
+/* Logo marquee. A static row when the user prefers reduced motion. */
+@keyframes logos-scroll {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logos__track { animation: none; }
+}
+
 /* ------------------------------------------------------------
    Responsive
    ------------------------------------------------------------ */
@@ -271,6 +318,8 @@ body {
   .statement { grid-template-columns: 1fr; gap: 24px; }
   .statement__lead { font-size: 22px; }
   .linklist__row { flex-wrap: wrap; gap: 4px; }
+  .logos__eyebrow { margin-bottom: 28px; }
+  .logos__set { gap: 40px; padding-right: 40px; }
   .footer__cols { grid-template-columns: repeat(2, 1fr); }
   .footer__legal { margin-left: 0; }
 }
