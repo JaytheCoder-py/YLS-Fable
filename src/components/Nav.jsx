@@ -1,11 +1,12 @@
 import { WORDMARK, navLinks } from '../data.js';
+import { RouteLink } from '../Router.jsx';
 import { Caret, Menu } from './Icons.jsx';
 
 export default function Nav() {
   return (
     <header className="nav">
       <div className="container-page nav__inner">
-        <a className="wordmark" href="#" aria-label="Anthropic home">{WORDMARK}</a>
+        <RouteLink className="wordmark" href="/" aria-label="Anthropic home">{WORDMARK}</RouteLink>
 
         <nav className="nav__links" aria-label="Primary">
           {navLinks.map((l) => (

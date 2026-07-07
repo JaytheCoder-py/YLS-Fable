@@ -332,6 +332,172 @@ body {
   .footer__legal { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-left: auto; }
   .footer__legal a { font-size: 13px; color: var(--color-footer-text); }
   .footer__legal a:hover { color: #fff; text-decoration: underline; }
+
+  /* ----------------------------------------------------------
+     Use-cases page (/use-cases) — replica of the grid section of
+     claude.com/resources/use-cases restyled with this repo's tokens.
+     Layout: hero copy and toolbar/grid align to the main column; the
+     260px filter rail sits left of it. The page ends on the light
+     canvas, so .uc-layout carries the pre-footer breathing room the
+     homepage gets from .cta's margin.
+     ---------------------------------------------------------- */
+  .uc-hero { padding-top: 104px; }
+  .uc-hero__inner { max-width: 720px; margin-left: 308px; } /* 260px rail + 48px gap */
+  .uc-hero__title { margin: 0 0 20px; font-weight: 700; font-size: 56px; line-height: 1.1; letter-spacing: -0.022em; color: var(--color-ink); }
+  .uc-hero__sub { margin: 0; font-family: var(--font-serif); font-size: 20px; line-height: 1.45; color: var(--color-graphite); max-width: 52ch; }
+
+  .uc-layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+    margin-top: 72px;
+    padding-bottom: 112px;
+    scroll-margin-top: 88px; /* page-change scroll target clears the sticky nav */
+  }
+
+  /* Filter rail */
+  .uc-rail__head { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--color-divider); }
+  .uc-rail__heading { margin: 0; font-size: 16px; font-weight: 600; color: var(--color-ink); }
+  .uc-rail__clear { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; color: var(--color-ashen); cursor: pointer; }
+  .uc-rail__clear:hover { color: var(--color-ink); text-decoration: underline; }
+  .uc-group { border-bottom: 1px solid var(--color-divider); }
+  .uc-group__btn {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; padding: 14px 0; background: none; border: 0; cursor: pointer;
+    font: inherit; font-size: 15px; font-weight: 500; color: var(--color-graphite);
+    transition: color .2s ease;
+  }
+  .uc-group__btn:hover { color: var(--color-ink); }
+  .uc-group__count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 18px; height: 18px; margin-left: 8px; padding: 0 5px;
+    border-radius: 9px; background: var(--color-ink); color: var(--color-canvas);
+    font-size: 11px; font-weight: 600; line-height: 1;
+  }
+  .uc-group__caret { width: 10px; height: 10px; opacity: .7; transition: transform .2s ease; }
+  .uc-group__caret--open { transform: rotate(180deg); }
+  .uc-group__list { list-style: none; margin: 0; padding: 2px 0 14px; }
+  .uc-check {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 0; font-size: 15px; color: var(--color-graphite); cursor: pointer;
+  }
+  .uc-check:hover { color: var(--color-ink); }
+  .uc-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .uc-check__box {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; flex: none;
+    border: 1px solid var(--color-pebble); border-radius: 4px; background: var(--color-paper);
+    color: var(--color-canvas); transition: background .15s ease, border-color .15s ease;
+  }
+  .uc-check__box svg { width: 11px; height: 11px; opacity: 0; }
+  .uc-check input:checked + .uc-check__box { background: var(--color-ink); border-color: var(--color-ink); }
+  .uc-check input:checked + .uc-check__box svg { opacity: 1; }
+  .uc-check input:focus-visible + .uc-check__box { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+
+  /* Toolbar: search + view toggle */
+  .uc-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 32px; }
+  .uc-search {
+    display: flex; align-items: center; gap: 10px;
+    width: min(320px, 100%); padding: 10px 16px;
+    background: var(--color-paper); border: 1px solid var(--color-divider); border-radius: 999px;
+    color: var(--color-ashen); transition: border-color .2s ease;
+  }
+  .uc-search:focus-within { border-color: var(--color-pebble); }
+  .uc-search svg { width: 15px; height: 15px; flex: none; }
+  .uc-search input {
+    width: 100%; border: 0; background: none; padding: 0;
+    font: inherit; font-size: 15px; color: var(--color-ink);
+  }
+  .uc-search input:focus { outline: none; }
+  .uc-search input::placeholder { color: var(--color-ashen); }
+  .uc-viewtoggle {
+    display: inline-flex; flex: none; padding: 3px; gap: 2px;
+    background: var(--color-card); border-radius: 10px;
+  }
+  .uc-viewtoggle button {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border: 1px solid transparent; border-radius: 8px;
+    background: none; cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 500; color: var(--color-graphite);
+    transition: background .15s ease, color .15s ease;
+  }
+  .uc-viewtoggle button:hover { color: var(--color-ink); }
+  .uc-viewtoggle button[aria-pressed="true"] {
+    background: var(--color-paper); border-color: var(--color-divider); color: var(--color-ink);
+  }
+  .uc-viewtoggle svg { width: 14px; height: 14px; }
+
+  /* Card grid. The card link is stretched over the whole card, so the
+     entire card is the click target (like the reference). */
+  .uc-grid {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .uc-card {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--color-paper); border: 1px solid var(--color-divider); border-radius: 16px;
+    overflow: hidden; transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .uc-card:hover { border-color: var(--color-pebble); box-shadow: 0 2px 12px rgba(20, 20, 19, .06); }
+  .uc-card:hover .uc-card__title { text-decoration: underline; }
+  .uc-card__media { aspect-ratio: 7 / 5; position: relative; }
+  /* Grain matching the announcement cards' placeholder media */
+  .uc-card__media::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: .06; mix-blend-mode: multiply; pointer-events: none;
+  }
+  .uc-card__media--1 { background: radial-gradient(120% 90% at 20% 25%, #f9edd8 0%, transparent 60%), radial-gradient(100% 80% at 80% 75%, #eccfa3 0%, transparent 65%), var(--color-kraft); }
+  .uc-card__media--2 { background: radial-gradient(120% 90% at 75% 20%, #e8c9a0 0%, transparent 60%), radial-gradient(110% 85% at 20% 80%, #d9a97c 0%, transparent 65%), #e3bd93; }
+  .uc-card__media--3 { background: radial-gradient(110% 85% at 30% 70%, #f2ddbb 0%, transparent 60%), radial-gradient(100% 90% at 75% 25%, #e6d3b3 0%, transparent 65%), var(--color-card); }
+  .uc-card__media--4 { background: radial-gradient(120% 90% at 70% 75%, #f5e3c7 0%, transparent 60%), radial-gradient(100% 80% at 25% 20%, #dfc094 0%, transparent 65%), #eed9b8; }
+  .uc-card__body { display: flex; flex-direction: column; flex: 1; padding: 20px 24px 22px; }
+  .uc-card__title { margin: 0 0 10px; font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+  .uc-card__link { color: inherit; }
+  .uc-card__link::after { content: ""; position: absolute; inset: 0; } /* stretched link */
+  .uc-card__desc {
+    margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite);
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .uc-card__meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: auto; padding-top: 18px; }
+  .uc-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-ashen); }
+  .uc-chip svg { width: 14px; height: 14px; flex: none; }
+
+  /* List view — table-like rows, matching the reference's columns */
+  .uc-list__head, .uc-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 110px 150px 100px 190px;
+    gap: 24px; align-items: baseline;
+  }
+  .uc-list__head {
+    padding-bottom: 12px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-ashen);
+  }
+  .uc-list__rows { list-style: none; margin: 0; padding: 0; }
+  .uc-row { position: relative; padding: 20px 0; border-top: 1px solid var(--color-divider); }
+  .uc-row:last-child { border-bottom: 1px solid var(--color-divider); }
+  .uc-row:hover .uc-row__title { text-decoration: underline; }
+  .uc-row__title { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--color-ink); }
+  .uc-row__cell { font-size: 14px; color: var(--color-graphite); }
+  .uc-row__cell::before { content: none; }
+
+  /* Pagination */
+  .uc-pagination { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 48px; }
+  .uc-pagination__btn {
+    border: 0; cursor: pointer; border-radius: 8px; padding: 11px 22px;
+    background: var(--color-card); color: var(--color-ink);
+    font: inherit; font-size: 15px; font-weight: 500;
+    transition: background .2s ease;
+  }
+  .uc-pagination__btn:hover { background: var(--color-divider); }
+  .uc-pagination__indicator { font-size: 14px; color: var(--color-ashen); }
+
+  /* Empty state */
+  .uc-empty { padding: 72px 0 40px; text-align: center; }
+  .uc-empty__title { margin: 0 0 8px; font-size: 20px; font-weight: 600; color: var(--color-ink); }
+  .uc-empty__hint { margin: 0 0 24px; font-size: 15px; color: var(--color-ashen); }
 }
 
 /* Placeholder-media drift (announcement cards). Freeze to a static frame
@@ -359,6 +525,13 @@ body {
 @media (max-width: 1024px) {
   .hero__title { font-size: 52px; }
   .footer__cols { grid-template-columns: repeat(3, 1fr); }
+  .uc-hero__inner { margin-left: 0; }
+  .uc-hero__title { font-size: 48px; }
+  .uc-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 56px; }
+  .uc-rail { max-width: 480px; }
+  .uc-grid { grid-template-columns: repeat(2, 1fr); }
+  .uc-list__head, .uc-row { grid-template-columns: minmax(0, 1fr) 100px 130px 90px; }
+  .uc-list__head span:last-child, .uc-row .uc-row__cell:last-child { display: none; }
 }
 @media (max-width: 767px) {
   .container-page { padding-inline: 20px; }
@@ -397,6 +570,25 @@ body {
   .logos__set { gap: 40px; padding-right: 40px; }
   .footer__cols { grid-template-columns: repeat(2, 1fr); }
   .footer__legal { margin-left: 0; }
+  .uc-hero { padding-top: 64px; }
+  .uc-hero__title { font-size: 36px; }
+  .uc-hero__sub { font-size: 18px; }
+  .uc-layout { margin-top: 40px; padding-bottom: 72px; }
+  .uc-toolbar { flex-wrap: wrap; }
+  .uc-search { width: 100%; }
+  .uc-grid { grid-template-columns: 1fr; gap: 20px; }
+  /* List view stacks: header row hidden, each cell labelled inline */
+  .uc-list__head { display: none; }
+  .uc-row { display: block; padding: 18px 0; }
+  .uc-row .uc-row__cell:last-child { display: block; }
+  .uc-row__title { margin-bottom: 10px; }
+  .uc-row__cell { display: block; font-size: 13px; padding: 2px 0; }
+  .uc-row__cell::before {
+    content: attr(data-label) ": ";
+    color: var(--color-ashen);
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .uc-pagination { gap: 14px; margin-top: 36px; }
 }
 
 /* Reduced motion: skip the viewport takeover entirely — drop the reserved
