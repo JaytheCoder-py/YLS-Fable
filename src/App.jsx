@@ -3,6 +3,7 @@ import Hero from './components/Hero.jsx';
 import AnnouncementCards from './components/AnnouncementCards.jsx';
 import LatestReleases from './components/LatestReleases.jsx';
 import Statement from './components/Statement.jsx';
+import LogoBanner from './components/LogoBanner.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <AnnouncementCards />
         <LatestReleases />
         <Statement />
+        <LogoBanner />
       </main>
       <Footer />
     </>
