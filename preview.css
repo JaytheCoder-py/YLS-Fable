@@ -391,7 +391,9 @@ a { color: inherit; text-decoration: none; }
 .logos__track {
   display: flex;
   width: max-content;
-  animation: logos-scroll 30s linear infinite;
+  /* Each track half repeats the 6-logo sequence 6x (script at the bottom of
+     preview.html) so it outspans the viewport; half ≈ 4400px, 72s ≈ 61px/s. */
+  animation: logos-scroll 72s linear infinite;
   will-change: transform;
 }
 .logos__set {

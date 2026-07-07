@@ -214,10 +214,14 @@ body {
   .linklist__name { font-size: 18px; font-weight: 500; color: var(--color-ink); }
   .linklist__cat { font-size: 15px; color: var(--color-ashen); white-space: nowrap; }
 
-  /* Logo banner — "trusted by" marquee. The track holds the logo set
-     twice; logos-scroll (defined below, outside the layer) slides it
-     -50% for a seamless loop. Each set carries the inter-set gap as
-     padding-right so -50% is exactly one set's footprint. */
+  /* Logo banner — "trusted by" marquee. The track holds two identical
+     halves (each half repeats the 6-logo sequence SET_REPEATS times —
+     see LogoBanner.jsx); logos-scroll (defined below, outside the layer)
+     slides it -50% for a seamless loop. Each half must outspan the
+     viewport or the strip empties from the right mid-cycle. Each set
+     carries the inter-set gap as padding-right so -50% is exactly one
+     half's footprint. Duration sets speed: half ≈ 4400px, so 72s ≈
+     61px/s. */
   .logos__eyebrow {
     font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--color-ashen);
@@ -232,7 +236,7 @@ body {
   .logos__track {
     display: flex;
     width: max-content;
-    animation: logos-scroll 30s linear infinite;
+    animation: logos-scroll 72s linear infinite;
     will-change: transform;
   }
   .logos__set {
