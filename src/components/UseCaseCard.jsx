@@ -1,4 +1,4 @@
-import { PenNib, GradCap, ChartBars, HeartIcon, SquaresOverlap, SparkleIcon, PersonIcon, ScaleIcon, FlaskIcon, TagIcon } from './Icons.jsx';
+import { PenNib, GradCap, ChartBars, HeartIcon, SquaresOverlap, SparkleIcon, PersonIcon, ScaleIcon, FlaskIcon } from './Icons.jsx';
 
 const categoryIcons = {
   Cowork: SquaresOverlap,
@@ -16,11 +16,13 @@ const categoryIcons = {
   Research: FlaskIcon,
 };
 
-export function CategoryChip({ category }) {
-  const Icon = categoryIcons[category] ?? TagIcon;
+// The icon map covers the full Category filter vocabulary; a category
+// outside it renders label-only.
+function CategoryChip({ category }) {
+  const Icon = categoryIcons[category];
   return (
     <span className="uc-chip">
-      <Icon />
+      {Icon && <Icon />}
       {category}
     </span>
   );

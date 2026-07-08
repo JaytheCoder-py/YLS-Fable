@@ -128,10 +128,3 @@ export const FlaskIcon = (props) => (
     <path d="M4.8 9.5h6.4" stroke="currentColor" strokeWidth="1.2" />
   </svg>
 );
-
-export const TagIcon = (props) => (
-  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-    <path d="M2 2.8a.8.8 0 01.8-.8h4.4c.2 0 .4.1.6.2l6 6a.8.8 0 010 1.2l-4.4 4.4a.8.8 0 01-1.2 0l-6-6a.8.8 0 01-.2-.6V2.8z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-    <circle cx="5.2" cy="5.2" r="1" fill="currentColor" />
-  </svg>
-);

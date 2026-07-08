@@ -65,9 +65,10 @@ breadcrumb subnav, footer, and CTA blocks are not.
    is a perf risk for zero payoff.
 6. **Filter semantics**: within a group OR; across groups AND; search
    (title + description, case-insensitive substring) ANDs with filters. Any
-   filter/search/view change resets to page 1. Empty state = "No results
-   found" + hint + "Clear filters" action. A `.u-sr-only` aria-live region
-   announces the result count.
+   filter/search change resets to page 1 (the grid/list toggle preserves
+   the current page). Empty state = "No results found" + hint + "Clear
+   filters" action. A `.u-sr-only` aria-live region announces the result
+   count.
 7. **Page size 15** (3 × 5 like the reference) → 6 pages unfiltered.
 
 ## Components

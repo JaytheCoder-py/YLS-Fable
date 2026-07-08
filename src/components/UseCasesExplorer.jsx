@@ -22,6 +22,17 @@ function matches(useCase, selections, query) {
   return true;
 }
 
+// Cells carry their own label spans (sr-only on desktop, shown inline on
+// mobile), so the visual header row can stay aria-hidden at every width.
+function ListCell({ label, children }) {
+  return (
+    <span className="uc-row__cell">
+      <span className="uc-row__label">{label}: </span>
+      {children}
+    </span>
+  );
+}
+
 function ListView({ items }) {
   return (
     <div className="uc-list">
@@ -40,10 +51,10 @@ function ListView({ items }) {
                 {uc.title}
               </a>
             </h3>
-            <span className="uc-row__cell" data-label="Author">{uc.author}</span>
-            <span className="uc-row__cell" data-label="Category">{uc.categories.join(', ') || '—'}</span>
-            <span className="uc-row__cell" data-label="Model">{uc.model}</span>
-            <span className="uc-row__cell" data-label="Features">{uc.features.join(', ') || '—'}</span>
+            <ListCell label="Author">{uc.author}</ListCell>
+            <ListCell label="Category">{uc.categories.join(', ') || '—'}</ListCell>
+            <ListCell label="Model">{uc.model}</ListCell>
+            <ListCell label="Features">{uc.features.join(', ') || '—'}</ListCell>
           </li>
         ))}
       </ul>
