@@ -36,14 +36,20 @@ export const YouTube = (props) => (
   </svg>
 );
 
-/* Use-cases page — toolbar and chip icons */
-
-export const SearchIcon = (props) => (
+export const Search = (props) => (
   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-    <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
+
+export const ArrowDown = (props) => (
+  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
+    <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/* Use-cases page — toolbar and chip icons (search reuses Search above) */
 
 export const ViewGrid = (props) => (
   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>

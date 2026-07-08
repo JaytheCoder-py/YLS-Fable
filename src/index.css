@@ -506,6 +506,131 @@ body {
   .uc-empty { padding: 72px 0 40px; text-align: center; }
   .uc-empty__title { margin: 0 0 8px; font-size: 20px; font-weight: 600; color: var(--color-ink); }
   .uc-empty__hint { margin: 0 0 24px; font-size: 15px; color: var(--color-ashen); }
+
+  /* ==== Research page ==== */
+
+  /* Research hero — h1 left, serif intro + team links right. */
+  .rhero { padding-top: 104px; padding-bottom: 56px; }
+  .rhero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .rhero__title { margin: 0; font-weight: 700; font-size: 64px; line-height: 1.1; letter-spacing: -0.022em; color: var(--color-ink); }
+  .rhero__intro { margin: 0 0 20px; font-family: var(--font-serif); font-size: 24px; line-height: 1.4; color: var(--color-ink); }
+  .rhero__teams { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; }
+  .rhero__teams-label { font-size: 14px; font-weight: 600; color: var(--color-ink); }
+  .rhero__team-link { font-size: 14px; color: var(--color-graphite); text-decoration: underline; text-underline-offset: 3px; transition: color .2s ease; }
+  .rhero__team-link:hover { color: var(--color-ink); }
+
+  /* Research teams — 4 mission blurbs between hairline rules. */
+  .teams__inner {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    padding-block: 40px;
+    border-top: 1px solid var(--color-divider);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .teams__name { margin: 0 0 10px; font-size: 17px; font-weight: 600; color: var(--color-ink); }
+  .teams__body { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite); }
+
+  /* Featured research — big feature (2fr) + side stack (1fr), hairline
+     seam below. The live feature artwork (a ship painting dissolving into
+     typed ASCII words) is non-redistributable; per repo convention the
+     stand-in is CSS-only: kraft gradients + grain, plus a repeating-word
+     SVG layer masked to fade in from the left — image-into-text. */
+  .featured { padding-top: 56px; }
+  .featured__inner {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 48px;
+    align-items: start;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .featured__media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 20% 25%, #f9edd8 0%, transparent 60%),
+      radial-gradient(100% 80% at 80% 75%, #eccfa3 0%, transparent 65%),
+      radial-gradient(90% 90% at 65% 20%, #f2ddbb 0%, transparent 55%),
+      var(--color-kraft);
+  }
+  .featured__media::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='132'%3E%3Cg font-family='ui-monospace,monospace' font-size='11' fill='%23141413'%3E%3Ctext x='6' y='16'%3ECLOUDS CLOUDS CLOUDS CLOUDS CLOUDS%3C/text%3E%3Ctext x='24' y='38'%3ECLOUDS CLOUDS CLOUDS CLOUDS%3C/text%3E%3Ctext x='6' y='64'%3EBOAT BOAT BOAT BOAT BOAT%3C/text%3E%3Ctext x='30' y='86'%3EBOAT BOAT BOAT%3C/text%3E%3Ctext x='6' y='110'%3EOCEAN OCEAN OCEAN OCEAN OCEAN%3C/text%3E%3Ctext x='22' y='128'%3EOCEAN OCEAN OCEAN OCEAN%3C/text%3E%3C/g%3E%3C/svg%3E");
+    background-size: 360px 132px;
+    opacity: .35;
+    -webkit-mask-image: linear-gradient(to right, transparent 30%, #000 72%);
+    mask-image: linear-gradient(to right, transparent 30%, #000 72%);
+  }
+  .featured__media::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: .06; mix-blend-mode: multiply; pointer-events: none;
+  }
+  .featured__caption { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-top: 24px; }
+  .featured__title { margin: 0; font-family: var(--font-serif); font-size: 30px; line-height: 1.2; font-weight: 400; color: var(--color-ink); }
+  .featured__main:hover .featured__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .featured__meta { margin: 0 0 10px; display: flex; gap: 12px; align-items: baseline; font-size: 13px; }
+  .featured__cat { font-weight: 600; color: var(--color-ink); }
+  .featured__date { color: var(--color-ashen); }
+  .featured__teaser { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-graphite); }
+  .featured__side { display: flex; flex-direction: column; }
+  .featured__item { display: block; padding-block: 20px; border-top: 1px solid var(--color-divider); }
+  .featured__item:first-child { border-top: 0; padding-top: 0; }
+  .featured__item:hover .featured__item-title { text-decoration: underline; text-underline-offset: 3px; }
+  .featured__item-title { margin: 0 0 8px; font-family: var(--font-serif); font-size: 20px; line-height: 1.25; font-weight: 400; color: var(--color-ink); }
+
+  /* Publications — heading + link-rows left (3fr), search pill right (1fr).
+     Rows are links laid out as a 3-column grid; the column header is
+     decorative (aria-hidden) with an sr-only caption in the JSX. */
+  .pubs { padding-top: 88px; }
+  .pubs__grid {
+    display: grid; grid-template-columns: 3fr 1fr;
+    grid-template-areas: "head search" "list .";
+    gap: 28px 48px; align-items: start;
+  }
+  .pubs__heading { grid-area: head; margin: 0; font-size: 32px; font-weight: 600; line-height: 1.2; color: var(--color-ink); }
+  .pubs__search { grid-area: search; position: relative; justify-self: end; }
+  .pubs__search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--color-ashen); pointer-events: none; }
+  .pubs__search input {
+    width: 260px; height: 40px; box-sizing: border-box;
+    border: 1px solid var(--color-divider); border-radius: 9999px;
+    background: var(--color-canvas); color: var(--color-ink);
+    font: inherit; font-size: 14px; padding: 0 16px 0 38px;
+  }
+  .pubs__search input::placeholder { color: var(--color-ashen); }
+  .pubs__search input:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: var(--color-ink); }
+  .pubs__search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+  .pubs__listwrap { grid-area: list; }
+  .pubs__colhead, .pubs__row { display: grid; grid-template-columns: 140px 220px 1fr; gap: 24px; align-items: baseline; }
+  .pubs__colhead { padding-bottom: 12px; border-bottom: 1px solid var(--color-divider); }
+  .pubs__colhead span { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-ashen); }
+  .pubs__list { list-style: none; margin: 0; padding: 0; }
+  .pubs__row { padding-block: 14px; border-bottom: 1px solid var(--color-divider); font-size: 14px; }
+  .pubs__row:hover .pubs__title { text-decoration: underline; text-underline-offset: 3px; }
+  .pubs__date, .pubs__cat { color: var(--color-graphite); }
+  .pubs__title { color: var(--color-ink); font-weight: 500; }
+  .pubs__empty { padding-block: 14px; font-size: 14px; color: var(--color-ashen); }
+  .pubs__more {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; margin-top: 16px; padding: 11px 20px;
+    background: color-mix(in srgb, var(--color-ink) 5%, var(--color-canvas));
+    border: 0; border-radius: 8px; cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 500; color: var(--color-ink);
+    transition: background .2s ease;
+  }
+  .pubs__more:hover { background: color-mix(in srgb, var(--color-ink) 9%, var(--color-canvas)); }
+  .pubs__more svg { width: 13px; height: 13px; }
+
+  /* Join band — dark page-end band, centred; carries the page-end margin
+     so the footer sits flush beneath it (hairline seam), like .cta. */
+  .joincta { margin-top: 96px; background: var(--color-footer); padding: 110px 0 96px; text-align: center; }
+  .joincta__title { margin: 0 0 36px; font-size: 52px; font-weight: 700; letter-spacing: -0.022em; line-height: 1.1; color: #f4f2ec; }
+  .joincta__btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--color-canvas); color: var(--color-ink);
+    font-size: 15px; font-weight: 500; border-radius: 8px; padding: 11px 20px;
+    transition: background .2s ease;
+  }
+  .joincta__btn:hover { background: #fff; }
+  .joincta__btn svg { width: 15px; height: 15px; }
 }
 
 /* Placeholder-media drift (announcement cards). Freeze to a static frame
@@ -547,6 +672,12 @@ body {
   .uc-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 56px; }
   .uc-rail { max-width: 480px; }
   .uc-grid { grid-template-columns: repeat(2, 1fr); }
+  .rhero__title { font-size: 52px; }
+  .teams__inner { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
+  .featured__inner { grid-template-columns: 1fr; }
+  .pubs__grid { grid-template-columns: 1fr; grid-template-areas: "head" "search" "list"; gap: 20px; }
+  .pubs__search { justify-self: stretch; }
+  .pubs__search input { width: 100%; }
 }
 @media (max-width: 767px) {
   .container-page { padding-inline: 20px; }
@@ -606,6 +737,23 @@ body {
     font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
   }
   .uc-pagination { gap: 14px; margin-top: 36px; }
+  .rhero { padding-top: 64px; padding-bottom: 40px; }
+  .rhero__grid { grid-template-columns: 1fr; gap: 24px; }
+  .rhero__title { font-size: 40px; }
+  .rhero__intro { font-size: 20px; }
+  .teams__inner { grid-template-columns: 1fr; }
+  .featured { padding-top: 40px; }
+  .featured__inner { padding-bottom: 48px; }
+  .featured__caption { grid-template-columns: 1fr; gap: 12px; }
+  .featured__title { font-size: 24px; }
+  .pubs { padding-top: 64px; }
+  .pubs__colhead { display: none; }
+  .pubs__row { grid-template-columns: auto 1fr; grid-template-areas: "cat date" "title title"; gap: 4px 12px; }
+  .pubs__cat { grid-area: cat; }
+  .pubs__date { grid-area: date; }
+  .pubs__title { grid-area: title; }
+  .joincta { padding: 64px 0; }
+  .joincta__title { font-size: 32px; }
 }
 
 /* Reduced motion: skip the viewport takeover entirely — drop the reserved

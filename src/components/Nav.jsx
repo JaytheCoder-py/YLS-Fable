@@ -1,12 +1,14 @@
 import { WORDMARK, navLinks } from '../data.js';
-import { RouteLink } from '../Router.jsx';
 import { Caret, Menu } from './Icons.jsx';
 
 export default function Nav() {
   return (
     <header className="nav">
       <div className="container-page nav__inner">
-        <RouteLink className="wordmark" href="/" aria-label="Anthropic home">{WORDMARK}</RouteLink>
+        {/* Plain anchor, not RouteLink: Nav is shared with the research.html
+            MPA document, where a pushState "navigation" would strand the
+            user. A full load to / is correct from both documents. */}
+        <a className="wordmark" href="/" aria-label="Anthropic home">{WORDMARK}</a>
 
         <nav className="nav__links" aria-label="Primary">
           {navLinks.map((l) => (

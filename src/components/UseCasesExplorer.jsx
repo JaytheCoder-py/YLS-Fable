@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useCases, filterGroups, PAGE_SIZE } from '../useCasesData.js';
 import UseCaseCard, { detailUrl } from './UseCaseCard.jsx';
 import UseCasesFilters from './UseCasesFilters.jsx';
-import { SearchIcon, ViewGrid, ViewList } from './Icons.jsx';
+import { Search, ViewGrid, ViewList } from './Icons.jsx';
 
 const emptySelections = () =>
   Object.fromEntries(filterGroups.map((g) => [g.key, new Set()]));
@@ -105,7 +105,7 @@ export default function UseCasesExplorer() {
       <div className="uc-main">
         <div className="uc-toolbar">
           <label className="uc-search">
-            <SearchIcon />
+            <Search />
             <span className="u-sr-only">Search use cases</span>
             <input
               type="search"
