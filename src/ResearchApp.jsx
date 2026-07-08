@@ -3,6 +3,7 @@ import ResearchHero from './components/ResearchHero.jsx';
 import ResearchTeams from './components/ResearchTeams.jsx';
 import FeaturedResearch from './components/FeaturedResearch.jsx';
 import Publications from './components/Publications.jsx';
+import JoinCta from './components/JoinCta.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function ResearchApp() {
@@ -14,6 +15,7 @@ export default function ResearchApp() {
         <ResearchTeams />
         <FeaturedResearch />
         <Publications />
+        <JoinCta />
       </main>
       <Footer />
     </>

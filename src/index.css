@@ -410,6 +410,19 @@ body {
   }
   .pubs__more:hover { background: color-mix(in srgb, var(--color-ink) 9%, var(--color-canvas)); }
   .pubs__more svg { width: 13px; height: 13px; }
+
+  /* Join band — dark page-end band, centred; carries the page-end margin
+     so the footer sits flush beneath it (hairline seam), like .cta. */
+  .joincta { margin-top: 96px; background: var(--color-footer); padding: 110px 0 96px; text-align: center; }
+  .joincta__title { margin: 0 0 36px; font-size: 52px; font-weight: 700; letter-spacing: -0.022em; line-height: 1.1; color: #f4f2ec; }
+  .joincta__btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--color-canvas); color: var(--color-ink);
+    font-size: 15px; font-weight: 500; border-radius: 8px; padding: 11px 20px;
+    transition: background .2s ease;
+  }
+  .joincta__btn:hover { background: #fff; }
+  .joincta__btn svg { width: 15px; height: 15px; }
 }
 
 /* Placeholder-media drift (announcement cards). Freeze to a static frame
@@ -491,6 +504,8 @@ body {
   .pubs__cat { grid-area: cat; }
   .pubs__date { grid-area: date; }
   .pubs__title { grid-area: title; }
+  .joincta { padding: 64px 0; }
+  .joincta__title { font-size: 32px; }
 }
 
 /* Reduced motion: skip the viewport takeover entirely — drop the reserved
