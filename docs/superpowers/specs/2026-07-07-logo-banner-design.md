@@ -22,13 +22,9 @@ Footer. Understated, consistent with the site's muted aesthetic.
 
 ## Architecture
 
-Two parallel implementations, kept in sync per project convention:
-
-1. **React app** — new `src/components/LogoBanner.jsx`, rendered in
-   `App.jsx` between `<Statement />` and `<Footer />` (inside `<main>`).
-2. **Static copy** — identical markup pasted into `preview.html` between
-   the statement section and footer; styles mirrored into `preview.css`.
-   No JS port needed (the marquee is CSS-only).
+A new `src/components/LogoBanner.jsx`, rendered in `App.jsx` between
+`<Statement />` and `<Footer />` (inside `<main>`). The marquee is CSS-only
+(no JS port needed).
 
 ### Files touched
 
@@ -39,8 +35,6 @@ Two parallel implementations, kept in sync per project convention:
 | `src/components/LogoBanner.jsx` | **New.** Presentational; reads `logoBanner` from `data.js`. |
 | `src/App.jsx` | Render `<LogoBanner />` between Statement and Footer. |
 | `src/index.css` | `.logos__*` component classes + `logos-scroll` keyframes in `@layer components`. |
-| `preview.html` | Mirrored static markup (SVGs inlined). |
-| `preview.css` | Mirrored styles. |
 
 `Icons.jsx` stays reserved for shared UI glyphs; brand marks get their own
 module.
@@ -71,8 +65,7 @@ section.logos            (aria-label from eyebrow copy)
 ## Styling
 
 - All rules live in `src/index.css` `@layer components` under BEM-ish
-  `.logos__*` names, mirrored verbatim into `preview.css`. No inline
-  utility classes in JSX.
+  `.logos__*` names. No inline utility classes in JSX.
 - Logos: `color: var(--color-ink)` at ~50% opacity; full opacity on
   per-logo hover. Canvas background. Consistent gap (~64px) between marks.
 - Eyebrow reuses the site's existing all-caps micro-label treatment.
@@ -103,4 +96,3 @@ No tests or linter are configured. Verify by:
 1. `npm run dev` → confirm seamless loop (no visible jump at the wrap
    point), hover pauses, edge fades render.
 2. DevTools reduced-motion emulation → strip is static.
-3. Open `preview.html` by double-click → identical appearance/behavior.

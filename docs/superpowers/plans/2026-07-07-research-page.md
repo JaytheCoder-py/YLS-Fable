@@ -17,7 +17,7 @@
 - Styling goes in `src/index.css` inside `@layer components`, BEM-ish class names, **existing tokens only** (`--color-canvas/ink/graphite/ashen/divider/kraft/footer`, `--color-footer-link`, `--container-page`, `--font-serif`). No inline styles, no Tailwind utility classes in JSX.
 - All copy verbatim as given in this plan (it was captured from the live page). Straight apostrophes in JS strings, matching existing `data.js` style (double-quoted strings when the text contains an apostrophe).
 - Components are presentational; content comes from `data.js`.
-- Do not modify: `preview.html`, `preview.css`, `AnnouncementCards.jsx`, homepage sections, `netlify.toml`.
+- Do not modify: `AnnouncementCards.jsx`, homepage sections, `netlify.toml`.
 - Commit after every task with the trailer: `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`.
 
 ---
@@ -975,7 +975,7 @@ Everything single-column; teams stacked; search full-width; publication rows = c
 Insert before the `**Fonts are deliberate substitutes**` paragraph:
 
 ```markdown
-**Research page** (`research.html` → `src/research.jsx` → `src/ResearchApp.jsx`): a second Vite MPA entry replicating anthropic.com/research — Nav → ResearchHero → ResearchTeams → FeaturedResearch → Publications → JoinCta → Footer, styled from the same tokens/component layer in `src/index.css` (rules under `/* ==== Research page ==== */`), all copy in `data.js` `researchPage` (50 publications, the 2026 rows of the live 149-item archive). `vite.config.js` lists both HTML entries in `build.rollupOptions.input`; the dev URL is `/research.html`. Publications is the page's only stateful component: live search filters title+category across the full carried archive regardless of the See-more state; "See more" reveals all rows once and unmounts, handing focus to the first revealed row. The featured artwork is a CSS-only stand-in (kraft gradients + grain + a masked repeating-word SVG layer) per the repo's no-redistributable-media convention. This page has no static preview twin (deliberate; user decision 2026-07-07).
+**Research page** (`research.html` → `src/research.jsx` → `src/ResearchApp.jsx`): a second Vite MPA entry replicating anthropic.com/research — Nav → ResearchHero → ResearchTeams → FeaturedResearch → Publications → JoinCta → Footer, styled from the same tokens/component layer in `src/index.css` (rules under `/* ==== Research page ==== */`), all copy in `data.js` `researchPage` (50 publications, the 2026 rows of the live 149-item archive). `vite.config.js` lists both HTML entries in `build.rollupOptions.input`; the dev URL is `/research.html`. Publications is the page's only stateful component: live search filters title+category across the full carried archive regardless of the See-more state; "See more" reveals all rows once and unmounts, handing focus to the first revealed row. The featured artwork is a CSS-only stand-in (kraft gradients + grain + a masked repeating-word SVG layer) per the repo's no-redistributable-media convention.
 ```
 
 - [ ] **Step 7: Final commit**

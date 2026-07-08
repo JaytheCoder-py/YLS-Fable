@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replicate anthropic.com's staggered hero-headline word reveal in both the React app and the standalone `preview.html`.
+**Goal:** Replicate anthropic.com's staggered hero-headline word reveal in the React app.
 
-**Architecture:** A small `WordReveal` React component splits the headline into per-word spans at render time (links preserved by recursing into elements); pure CSS transitions animate them; an IntersectionObserver adds an `is-revealed` class to trigger. `preview.html` gets a near-verbatim port of the live site's vanilla inline script.
+**Architecture:** A small `WordReveal` React component splits the headline into per-word spans at render time (links preserved by recursing into elements); pure CSS transitions animate them; an IntersectionObserver adds an `is-revealed` class to trigger.
 
-**Tech Stack:** React 18, plain CSS (Tailwind v4 `@layer components`), vanilla JS for the static preview. **No new dependencies.**
+**Tech Stack:** React 18, plain CSS (Tailwind v4 `@layer components`). **No new dependencies.**
 
 **Spec:** `docs/superpowers/specs/2026-07-07-hero-word-reveal-design.md`
 
@@ -15,10 +15,9 @@
 - Animation constants, measured from the live site (use verbatim): initial `opacity: 0; transform: translateY(24px)`; transition `opacity, transform` over **800ms** with easing **`cubic-bezier(0.16, 1, 0.3, 1)`**; per-word random `transition-delay` uniform in **100–500ms**; IntersectionObserver **threshold 0.2**; reveal applied inside `requestAnimationFrame`.
 - Only the H1 animates — not the hero subtitle.
 - `prefers-reduced-motion: reduce` must show the headline fully visible with no transition.
-- The React app and `preview.html` must end up visually identical (repo sync rule, see CLAUDE.md).
 - This repo has **no test framework** (see CLAUDE.md); verification is scripted browser checks via the Playwright MCP tools (exact snippets given per task). Do not add a test framework.
 - `src/main.jsx` wraps the app in `React.StrictMode` — effects run twice in dev; any observer must be disconnected in the effect cleanup.
-- Code style: modern JSX in `src/`; the inline scripts in `preview.html` use ES5-style `var`/`function () {}` — match that.
+- Code style: modern JSX in `src/`.
 
 ---
 
@@ -31,7 +30,7 @@
 
 **Interfaces:**
 - Consumes: nothing from other tasks.
-- Produces: `WordReveal({ children })` — default export, wraps arbitrary inline JSX (text + inline anchors). CSS classes `.u-sr-only`, `.animate-word`, `.animate-space`, `.word-reveal`, state class `.is-revealed` (Task 2's script and Task 3's docs refer to these exact names).
+- Produces: `WordReveal({ children })` — default export, wraps arbitrary inline JSX (text + inline anchors). CSS classes `.u-sr-only`, `.animate-word`, `.animate-space`, `.word-reveal`, state class `.is-revealed` (the Documentation task refers to these exact names).
 
 - [ ] **Step 1: Create `src/components/WordReveal.jsx`**
 
@@ -227,169 +226,14 @@ git commit -m "feat: staggered hero word reveal in React app"
 
 ---
 
-### Task 2: Word-reveal script in `preview.html`
-
-**Files:**
-- Modify: `preview.html` — insert a new `<script>` block after the existing feature-card script's closing `</script>` (line 252), before `</body>`.
-
-**Interfaces:**
-- Consumes: CSS class names established in Task 1 (`.animate-word`, `.animate-space`, `.u-sr-only`) — the preview injects its own copies, but the names must match for the repo sync rule.
-- Produces: nothing consumed by other tasks.
-
-- [ ] **Step 1: Insert the script**
-
-This is a near-verbatim port of the live site's inline script (kept 1:1 including its accessibility behavior; the React app's aria-hidden improvement is app-only — see spec "Deliberate deviation"). Insert after line 252 (`</script>` of the feature-card block):
-
-```html
-  <script>
-    // Staggered hero word reveal (mirrors the React WordReveal component).
-    // Near-verbatim port of the live anthropic.com inline script (July 2026):
-    // words rise 24px over 800ms (expo-out), each after a random 100-500ms
-    // delay. document.write only runs when JS is enabled, so a no-JS open
-    // still shows the headline.
-    document.write('<style id="word-animation-fouc">h1:not(.no-animate){opacity:0 !important;}</style>');
-
-    document.addEventListener('DOMContentLoaded', function () {
-      var CONFIG = {
-        selector: 'h1:not(.no-animate)',
-        minDelay: 100,
-        maxDelay: 500,
-        duration: 800,
-        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        translateY: 24,
-        threshold: 0.2,
-      };
-
-      var style = document.createElement('style');
-      style.textContent =
-        '.animate-word{display:inline-block;opacity:0;transform:translateY(' + CONFIG.translateY + 'px);' +
-        'transition:opacity ' + CONFIG.duration + 'ms ' + CONFIG.easing + ',transform ' + CONFIG.duration + 'ms ' + CONFIG.easing + ';' +
-        'will-change:opacity,transform;text-decoration:inherit;}' +
-        '.animate-space{display:inline;opacity:0;}' +
-        '.word-animation-processed{opacity:1 !important;}' +
-        '.u-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}' +
-        '@media (prefers-reduced-motion: reduce){' +
-        '.animate-word{transition:none !important;opacity:1 !important;transform:none !important;}' +
-        '.animate-space{opacity:1 !important;}}';
-      document.head.appendChild(style);
-
-      document.querySelectorAll(CONFIG.selector).forEach(function (element) {
-        var srOnly = document.createElement('span');
-        srOnly.className = 'u-sr-only';
-        srOnly.innerHTML = element.innerHTML;
-
-        function processNode(node) {
-          if (node.nodeType === Node.TEXT_NODE) {
-            var text = node.textContent;
-            if (!text.trim()) return document.createTextNode(text);
-            var fragment = document.createDocumentFragment();
-            var regex = /\S+/g;
-            var lastIndex = 0;
-            var match;
-            while ((match = regex.exec(text)) !== null) {
-              if (match.index > lastIndex) {
-                var spaceSpan = document.createElement('span');
-                spaceSpan.textContent = text.substring(lastIndex, match.index);
-                spaceSpan.className = 'animate-space';
-                fragment.appendChild(spaceSpan);
-              }
-              var wordSpan = document.createElement('span');
-              wordSpan.textContent = match[0];
-              wordSpan.className = 'animate-word';
-              wordSpan.style.transitionDelay =
-                (Math.random() * (CONFIG.maxDelay - CONFIG.minDelay) + CONFIG.minDelay) + 'ms';
-              fragment.appendChild(wordSpan);
-              lastIndex = match.index + match[0].length;
-            }
-            if (lastIndex < text.length) {
-              var trailing = document.createElement('span');
-              trailing.textContent = text.substring(lastIndex);
-              trailing.className = 'animate-space';
-              fragment.appendChild(trailing);
-            }
-            return fragment;
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            var clone = node.cloneNode(false);
-            Array.prototype.forEach.call(node.childNodes, function (child) {
-              clone.appendChild(processNode(child));
-            });
-            return clone;
-          }
-          return node.cloneNode(true);
-        }
-
-        var processed = document.createDocumentFragment();
-        Array.prototype.slice.call(element.childNodes).forEach(function (node) {
-          processed.appendChild(processNode(node));
-        });
-
-        element.innerHTML = '';
-        element.appendChild(srOnly);
-        element.appendChild(processed);
-        element.classList.add('word-animation-processed');
-
-        var observer = new IntersectionObserver(function (entries, obs) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            requestAnimationFrame(function () {
-              element.querySelectorAll('.animate-word').forEach(function (word) {
-                word.style.opacity = '1';
-                word.style.transform = 'translateY(0)';
-              });
-              element.querySelectorAll('.animate-space').forEach(function (space) {
-                space.style.opacity = '1';
-              });
-            });
-            obs.disconnect();
-          });
-        }, { threshold: CONFIG.threshold });
-        observer.observe(element);
-      });
-
-      var foucStyle = document.getElementById('word-animation-fouc');
-      if (foucStyle) foucStyle.remove();
-    });
-  </script>
-```
-
-- [ ] **Step 2: Verify the static preview**
-
-With Playwright MCP, navigate to `file:///C:/Users/jason/Claude/Projects/YLS-Anthropic-style/preview.html`, wait ~1.5s for the transition to finish, and evaluate:
-
-```js
-() => {
-  const h1 = document.querySelector('h1');
-  const words = h1.querySelectorAll('.animate-word');
-  return {
-    processed: h1.classList.contains('word-animation-processed'),
-    words: words.length,
-    srOnly: !!h1.querySelector('.u-sr-only'),
-    anchorsInSplit: h1.querySelectorAll('a').length,
-    firstWordOpacity: getComputedStyle(words[0]).opacity,
-    foucGone: !document.getElementById('word-animation-fouc'),
-  };
-}
-```
-
-Expected: `processed: true`, `words: 10`, `srOnly: true`, `anchorsInSplit: 4` (2 in the sr-only clone + 2 in the split copy — matches the live site), `firstWordOpacity: "1"`, `foucGone: true`.
-
-- [ ] **Step 3: Commit**
-
-```bash
-git add preview.html
-git commit -m "feat: hero word reveal in static preview"
-```
-
----
-
-### Task 3: Documentation
+### Task 2: Documentation
 
 **Files:**
 - Modify: `README.md` (add a section after "Scroll animation (GSAP)", which ends at line 55; extend "Fidelity notes"; add `WordReveal.jsx` to the structure listing at lines 37-39)
 - Modify: `CLAUDE.md` (architecture section)
 
 **Interfaces:**
-- Consumes: component/class names from Tasks 1–2 (`WordReveal.jsx`, `.animate-word`).
+- Consumes: component/class names from Task 1 (`WordReveal.jsx`, `.animate-word`).
 - Produces: nothing.
 
 - [ ] **Step 1: README — add after the "Scroll animation (GSAP)" section (line 55)**
@@ -403,8 +247,7 @@ live site's inline script (July 2026): each word starts at `opacity: 0` /
 after a **random 100–500ms delay** — words surface in random order, not left-to-right.
 The trigger is an IntersectionObserver (threshold 0.2); `prefers-reduced-motion` shows the
 headline statically. `src/components/WordReveal.jsx` splits the words at render time
-(preserving the inline links); `preview.html` embeds a near-verbatim port of the live
-site's vanilla script.
+(preserving the inline links).
 ```
 
 In the structure listing (lines 37-39), add `WordReveal.jsx` to the components:
@@ -418,8 +261,7 @@ Append to the "Fidelity notes" deliberate-substitutions list:
 ```markdown
 - **Headline reveal accessibility** — the live site exposes the split headline to screen
   readers twice (its sr-only clone plus the un-hidden animated copy). The React app instead
-  marks the animated copy `aria-hidden` with unfocusable link clones; `preview.html` keeps
-  the live behavior 1:1.
+  marks the animated copy `aria-hidden` with unfocusable link clones.
 ```
 
 - [ ] **Step 2: CLAUDE.md — extend the architecture section**
@@ -432,7 +274,6 @@ spans at render time (recursing into inline anchors), each with a random 100–5
 `transition-delay`; an IntersectionObserver (threshold 0.2) adds `.is-revealed` and CSS
 transitions (800ms expo-out, 24px rise, defined in `index.css`) do the animation. The
 intact sentence is kept in a `.u-sr-only` copy; the split copy is `aria-hidden`.
-`preview.html` embeds a vanilla-JS port of the same effect.
 ```
 
 - [ ] **Step 3: Commit**
@@ -447,5 +288,4 @@ git commit -m "docs: document hero word reveal"
 ## Final Verification (after all tasks)
 
 1. `npm run dev` → visually confirm: words rise in random order on load; links underlined and clickable; no layout jump when the animation ends.
-2. Open `preview.html` from disk → same effect.
-3. `npm run build` → completes without errors.
+2. `npm run build` → completes without errors.

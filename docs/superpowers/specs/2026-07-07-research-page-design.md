@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-07 · **Status:** approved by user · **Target:** replica of anthropic.com/research (captured 2026-07-07, desktop 1440px + mobile 390px)
 
-A second page for the anthropic.com replica: the Research page, reusing the existing Nav, Footer, design tokens, and CSS conventions. React app only — no static `preview.html` twin for this page (user decision).
+A second page for the anthropic.com replica: the Research page, reusing the existing Nav, Footer, design tokens, and CSS conventions. React app only (user decision).
 
 ## Decisions (user-confirmed)
 
@@ -18,7 +18,7 @@ A second page for the anthropic.com replica: the Research page, reusing the exis
   `Nav → <main id="main"> ResearchHero → ResearchTeams → FeaturedResearch → Publications → JoinCta </main> → Footer`.
 - **`vite.config.js`** — `build.rollupOptions.input = { main: <index.html>, research: <research.html> }` (paths via `fileURLToPath(new URL(...))` — ESM, Windows-safe). Dev URL: `http://localhost:5173/research.html`.
 - **`src/data.js`** — new `researchPage` export holding every piece of copy (below); `navLinks` "Research" href `'#'` → `'/research.html'`; `WORDMARK` anchor href `'#'` → `'/'` (in `Nav.jsx`). Footer untouched (links are plain strings).
-- **Untouched:** `preview.html`, `preview.css`, AnnouncementCards and all homepage sections, `netlify.toml` (main checkout only; a `/research → /research.html` redirect can be added there later).
+- **Untouched:** AnnouncementCards and all homepage sections, `netlify.toml` (main checkout only; a `/research → /research.html` redirect can be added there later).
 
 ## Components and styling
 
