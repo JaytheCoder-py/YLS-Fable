@@ -388,7 +388,7 @@ body {
     font: inherit; font-size: 14px; padding: 0 16px 0 38px;
   }
   .pubs__search input::placeholder { color: var(--color-ashen); }
-  .pubs__search input:focus { outline: none; border-color: var(--color-ink); }
+  .pubs__search input:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: var(--color-ink); }
   .pubs__search input::-webkit-search-cancel-button { -webkit-appearance: none; }
   .pubs__listwrap { grid-area: list; }
   .pubs__colhead, .pubs__row { display: grid; grid-template-columns: 140px 220px 1fr; gap: 24px; align-items: baseline; }
@@ -453,6 +453,9 @@ body {
   .rhero__title { font-size: 52px; }
   .teams__inner { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
   .featured__inner { grid-template-columns: 1fr; }
+  .pubs__grid { grid-template-columns: 1fr; grid-template-areas: "head" "search" "list"; gap: 20px; }
+  .pubs__search { justify-self: stretch; }
+  .pubs__search input { width: 100%; }
 }
 @media (max-width: 767px) {
   .container-page { padding-inline: 20px; }
@@ -496,9 +499,6 @@ body {
   .featured__caption { grid-template-columns: 1fr; gap: 12px; }
   .featured__title { font-size: 24px; }
   .pubs { padding-top: 64px; }
-  .pubs__grid { grid-template-columns: 1fr; grid-template-areas: "head" "search" "list"; gap: 20px; }
-  .pubs__search { justify-self: stretch; }
-  .pubs__search input { width: 100%; }
   .pubs__colhead { display: none; }
   .pubs__row { grid-template-columns: auto 1fr; grid-template-areas: "cat date" "title title"; gap: 4px 12px; }
   .pubs__cat { grid-area: cat; }

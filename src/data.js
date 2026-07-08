@@ -1,4 +1,4 @@
-// Content data for the homepage — mirrors the live anthropic.com structure.
+// Content data for the homepage and research page — mirrors the live anthropic.com structure.
 
 export const WORDMARK = 'ANTHROP\\C'; // rendered as ANTHROP\C
 

@@ -45,7 +45,7 @@ export default function Publications() {
           />
         </div>
         <div className="pubs__listwrap">
-          <p className="u-sr-only" aria-live="polite">{visible.length} publications shown</p>
+          <p className="u-sr-only" aria-live="polite">{visible.length} publication{visible.length === 1 ? '' : 's'} shown</p>
           <p className="u-sr-only">Publications list: date, category, title</p>
           <div className="pubs__colhead" aria-hidden="true">
             <span>Date</span>
