@@ -62,7 +62,7 @@ export const footerColumns = [
   { heading: 'Models', links: ['Mythos', 'Fable', 'Opus', 'Sonnet', 'Haiku'] },
   { heading: 'Solutions', links: ['AI agents', 'Coding', 'Customer support', 'Education', 'Financial services', 'Government', 'Healthcare'] },
   { heading: 'Claude Platform', links: ['Overview', 'Developer docs', 'Pricing', 'Ecosystem', 'Marketplace', 'Console login'] },
-  { heading: 'Resources', links: ['Blog', 'Community', 'Connectors', 'Courses', 'Customer stories', 'Engineering', 'Events'] },
+  { heading: 'Resources', links: ['Blog', 'Community', 'Connectors', 'Courses', 'Customer stories', 'Engineering', 'Events', { label: 'Use cases', href: '/use-cases' }] },
   { heading: 'Company', links: ['Anthropic', 'Careers', 'Policy', 'Research', 'News', 'Responsible Scaling Policy', 'Transparency'] },
 ];
 

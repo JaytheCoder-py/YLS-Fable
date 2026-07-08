@@ -6,8 +6,7 @@
 ## Goal
 
 Replicate anthropic.com's staggered hero-headline reveal ("AI research and products that
-put safety at the frontier") in both implementations of this replica: the React app
-(`src/`) and the standalone static copy (`preview.html`).
+put safety at the frontier") in the React app (`src/`).
 
 ## Measured behavior (extracted from the live site, 2026-07-07)
 
@@ -27,8 +26,6 @@ The live effect is a small vanilla inline script, not GSAP. Verified constants:
 Only the H1 animates in the live hero; the subtitle does not.
 
 ## Design
-
-### React app
 
 **New component `src/components/WordReveal.jsx`** — renders `<span className="word-reveal">` containing:
 
@@ -54,12 +51,6 @@ All animation is CSS-driven; no per-word JS style writes.
 **`src/components/Hero.jsx`** — wrap the existing headline content in `<WordReveal>`;
 h1 markup otherwise unchanged.
 
-### Static preview
-
-**`preview.html`** — embed a near-verbatim copy of the live site's vanilla inline script,
-scoped to `h1`, with the same CONFIG constants, including its FOUC guard (a style injected
-only when JS runs, so no-JS opens still show the text).
-
 ## Deliberate deviation
 
 The live site does **not** aria-hide the animated copy, so screen readers read the headline
@@ -72,4 +63,3 @@ semantics. This follows the repo's convention of documenting deliberate substitu
 2. Inline links still underlined and clickable.
 3. No horizontal overflow at mobile widths (words are inline-block but wrap normally).
 4. DevTools reduced-motion emulation → static, fully visible headline.
-5. Open `preview.html` from disk → same behavior; also loads fine with JS disabled.

@@ -87,13 +87,6 @@ No change at the 1024px breakpoint (the band shrinks with the container).
 - Buttons are plain anchors (`href: '#'` like the rest of the replica);
   contrast: #f4f2ec and #d7d4cd on #141210 both clear WCAG AA.
 
-## Mirroring (project invariant)
-
-The identical section must be reproduced in the zero-build copy:
-
-- `preview.html`: add the same section markup between the statement section and the footer.
-- `preview.css`: add the same `.cta*` rules and the `.footer` margin/border changes.
-
 ## Docs
 
 Update CLAUDE.md's page-composition line: … → Statement → CtaSection → Footer.
@@ -106,9 +99,8 @@ Update CLAUDE.md's page-composition line: … → Statement → CtaSection → F
 
 ## Verification
 
-No tests or linter are configured. Verify in a browser (dev server + preview.html):
+No tests or linter are configured. Verify in a browser (dev server):
 
 1. Band is full-bleed dark, flush with the footer — no canvas gap; hairline visible.
 2. Desktop (~1440px): title/body/buttons left-aligned inside the 1272px container.
 3. Mobile width (~375px): 32px title, reduced padding, buttons wrap cleanly.
-4. `preview.html` opened from disk matches the React app visually.

@@ -1,5 +1,13 @@
 import { WORDMARK, footerColumns, footerLegal } from '../data.js';
+import { RouteLink } from '../Router.jsx';
 import { LinkedIn, XIcon, YouTube } from './Icons.jsx';
+
+// Column links are plain strings (dead '#' links, like the live replica) or
+// {label, href} objects for pages that exist in this app.
+function ColumnLink({ link }) {
+  if (typeof link === 'string') return <a href="#">{link}</a>;
+  return <RouteLink href={link.href}>{link.label}</RouteLink>;
+}
 
 export default function Footer() {
   return (
@@ -19,9 +27,10 @@ export default function Footer() {
             <div className="footer__col" key={col.heading}>
               <h4>{col.heading}</h4>
               <ul>
-                {col.links.map((link) => (
-                  <li key={link}><a href="#">{link}</a></li>
-                ))}
+                {col.links.map((link) => {
+                  const label = typeof link === 'string' ? link : link.label;
+                  return <li key={label}><ColumnLink link={link} /></li>;
+                })}
               </ul>
             </div>
           ))}
