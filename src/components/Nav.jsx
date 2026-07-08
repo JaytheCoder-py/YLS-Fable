@@ -5,7 +5,7 @@ export default function Nav() {
   return (
     <header className="nav">
       <div className="container-page nav__inner">
-        <a className="wordmark" href="#" aria-label="Anthropic home">{WORDMARK}</a>
+        <a className="wordmark" href="/" aria-label="Anthropic home">{WORDMARK}</a>
 
         <nav className="nav__links" aria-label="Primary">
           {navLinks.map((l) => (

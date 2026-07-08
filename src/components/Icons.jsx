@@ -35,3 +35,16 @@ export const YouTube = (props) => (
     <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.5v-7l6.3 3.5-6.3 3.5z" />
   </svg>
 );
+
+export const Search = (props) => (
+  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
+    <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+export const ArrowDown = (props) => (
+  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
+    <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
